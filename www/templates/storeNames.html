@@ -1,0 +1,95 @@
+<ion-view view-title="Storenames">
+    <ion-content  >
+
+    <!-- HEADER   background-color: #4881ea;-->
+<div style="color:white; text-align: center; background: #005596 url(img/uwinBannerBG.png) repeat 0 0; vertical-align: middle;
+  line-height: 50px;   font-size: 15px;  " >
+  <!-- HEADER   background-color: #4881ea;-->
+
+     <span style="margin-left:50px"> </span>
+    <span  style="">Stores Available </span>
+  <button type="button" class="btn btn-default" ng-click="openstoremodal2()" style="line-height: 20px;
+    background: #005596 url(img/uwinBannerBG.png) repeat 0 0;  border-style: none; float: right; font-size: 25px; margin-top:5px; margin-right:10px">
+    <span style="color:white" class="glyphicon glyphicon-plus"></span>
+  </button>
+</div>
+
+      <!-- TITLE -->
+<h1 class="bob3" style="text-align:center;">Stores Available in Area</h1>
+
+
+<br>
+
+
+<!-- DELETE BUTTON -->
+<button ng-show="deleteButton" style="width:100%; height:50px; opacity: 0.5;
+ text-align:center" ng-click="exitDeleteMode()" type="button" class="btn btn-danger">
+  DELETE MODE!<BR> PLESE PRESS ME TO EXIT!
+</button>
+
+<!-- SUCCESS BUTTON -->
+
+<div ng-show="successMessage" class="alert alert-success">
+  <strong>Success!</strong> Indicates a successful or positive action.
+</div>
+
+<div ng-show="failedMessage"  class="alert alert-danger" style="text-align:center">
+  <strong >{{failedData}}</strong>
+</div>
+
+
+
+
+<div class="bar bar-header item-input-inset">
+  <label class="item-input-wrapper" >
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" ng-model="storeName.sname"  placeholder="Please add a Store Name">
+  </label>
+  <button class="button button-clear" ng-click="addStore1()" style="color:black">
+    Add Store
+  </button>
+</div>
+
+
+  <!-- STORENAMES TABLE -->
+
+<div style="" class="table-responsive">
+<table class="table  table-hover">
+  <thead>
+      <tr >
+        <!--			<th style="text-align: center;">Store</th> -->
+        <!--		<th style="text-align: center;">Actions</th> -->
+      </tr>
+  </thead>
+      <tbody style="background-color:white; border:none">
+            <tr ng-hide="numberLinesZero" style="text-align: center;" ng-repeat="storewithName in storewithNames | filter:search | orderBy:'store'">
+                <td>
+                  <a  style="background-color:white; border:none"  href="#/storelines"   ng-click="grabStuff(storewithName.store)" class="list-group-item ">
+                  <span style="color:black;font-weight: bold;">{{storewithName.store}} <br>
+                </td>
+
+                <td  style="width:20%"  ng-show="deleteButton">
+                  <button class="btn btn-danger btn" style="float:right; margin-top:5px" ng-click="deleteName2(storewithName.store)">Delete</button>
+                </td>
+            </tr>
+
+            <tr ng-show="numberLinesZero" >
+                <td><a style="background-color:white; border:none; text-align: center;" href=""class="list-group-item active" >
+                    <span style="color:black;">PLEASE WAIT UNTIL THE GEOLOCATION UPDATES <br>
+                      THE PAGE OR ADD STORE YOURSELF  </span>
+                </td>
+                <td  style="width:80px"  ng-show="deleteButton">
+                  <button class="btn btn-danger btn" style="float:right; margin-top:5px" ng-click="deleteLine(storewithName.line)">Delete</button>
+                </td>
+            </tr>
+
+      </tbody>
+</table>
+</div>
+
+<!--<div style="height:40px;"> -->
+<div style="height:40px;">
+</div>
+
+  </ion-content>
+</ion-view>

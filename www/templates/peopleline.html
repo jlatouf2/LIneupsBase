@@ -1,0 +1,179 @@
+<ion-view view-title="Peopleline">
+  <ion-content  >
+
+       <!--
+       style="margin-top:50px;"
+       <div style="padding-left:50px; padding-right:50px; ">  -->
+
+        <div style="color:white; text-align: center; background: #005596 url(img/uwinBannerBG.png) repeat 0 0; vertical-align: middle;
+          line-height: 50px;   font-size: 15px;   " >
+          <span style="margin-left:50px"> </span>
+          <span  style="">Peopleline Controller </span>
+          <button type="button" class="btn btn-default" ng-click="openpeoplemodal1()" style="line-height: 20px;
+           background: #005596 url(img/uwinBannerBG.png) repeat 0 0;  border-style: none; float: right; font-size: 25px; margin-top:5px; margin-right:10px">
+            <span style="color:white" class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+
+
+        <p ng-show="blue" id="demo2" style="font-weight: bold;"></p>
+
+          <!--    <div class="clock"></div>   -->
+
+
+        <!--   <p>{{ clock | date:'HH:mm:ss'}}</p>     -->
+
+
+      <!--   <button ng-click="nodeValidation()">Validation</button>
+        {{validationData}}
+        -->
+              <!-- TITLE / INFORMATION ! -->
+
+
+              <h1 class="bob3" style="text-align:center;"> <u> {{grabStorename || Store}} <span style="margin-left:50px;"> Line # {{grabLineNumber}} </span> </u></h1>
+
+
+          <!--  <div class="bob3" style="font-size:30px;text-align:center;">Lines #: {{grabLineNumber || 'Line not passed!'}} </div>
+          <h1 class="bob3" style="text-align:center;"> <u> {{grabStorename || Store}} <span style="margin-left:50px;"> Line # {{grabLineNumber}} </span> </u></h1>
+ -->
+              <!--        NOTE: THIS IS THE BUTTON FOR ADDING A PERSON -->
+        <!--     <button style="background-color:teal" class="btn btn-default btn"  ng-click="openpeoplemodal3()">Add to Lineup</button>  -->
+
+
+          <!-- SUCCESS BAR -->
+
+          <div ng-show="successful"  class="alert alert-success" style="text-align:center">
+            <strong>Success! Person Added</strong>
+          </div>
+
+          <div ng-show="failedLog"  class="alert alert-danger" style="text-align:center">
+            <strong >{{failedData}}</strong>
+          </div>
+
+
+          <div ng-show="DisplacementCalc"  class="alert alert-success" style="text-align:center">
+            <strong>Success! Displacement Calculated: {{finalCalc}}</strong>
+          </div>
+
+
+      <!--    <div>
+              <div ng-switch on="selected">
+                  <button ng-switch-when='true' ng-click='button1()'>On</button>
+                  <button ng-switch-when='false' ng-click='button2()'>Off</button>
+              </div>
+          </div>
+          -->
+
+          <!-- THIS IS NEEDED FOR JAVASCRIPT FUNCTION TO CALL ANGULARJS FUNCTION ! -->
+          <div id="YourElementId" > </div>
+
+
+        <div style="text-align:center;">  <b> {{yellow}} </b> </div>
+          <br>
+          <!-- Add Yourself Text ! -->
+
+
+        <div style="padding-left:50px; padding-right:50px">
+             <div>
+           <!--  NOTE:   <li>FINAL CALCULATION: <span ng-show="showfinalCalc">{{finalCalc}}</span></li>    -->
+             </div>
+         </div>
+
+          <!-- DELETE ALERT  -->
+
+
+          <button ng-show="deleteButton" style="width:100%; height:50px; opacity: 0.5; " ng-click="exitDeleteMode()" type="button" class="btn btn-danger">
+            DELETE MODE! PLESE PRESS ME TO EXIT!</button>
+
+
+              <!-- POSITION / DISPLACEMNT BUTTONS! -->
+          <!--  <div  style="padding-left:50px; padding-right:50px">
+            <button class="btn btn-default btn"  ng-click="positionButton()">POSITION</button>
+            <button style="float:right" class="btn btn-default btn"  ng-click="displacementButton()">DISPLACEMENT</button>
+          </div>
+
+          <ul class="nav nav-tabs"  style="text-align:center;">
+            <li class="active" style=" width:50%;"><a data-toggle="tab" ng-click="positionButton()" href="">POSITION</a></li>
+            <li style=" width:50%;"><a data-toggle="tab" href="" ng-click="displacementButton()">DISPLACEMENT</a></li>
+          </ul>
+-->
+
+          <ul class="nav nav-tabs"  style="text-align:center;">
+            <li class="active" style=" width:33%;"><a data-toggle="tab" ng-click="positionButton()" href="">
+              <span style="font-size:15px"><b>POSITION</b> </span></a></li>
+            <li style=" width:33%;"><a data-toggle="tab" href="" ng-click="optimizeStart()">
+              <span style="font-size:15px"><b>OPTIMIZE</b></a></li>
+            <li style=" width:33%;"><a data-toggle="tab" href="" ng-click="displacementButton()">
+              <span style="font-size:15px"><b>DISTANCE</b></a></li>
+          </ul>
+
+
+
+
+            <!-- TABLE BEGINS! -->
+
+					<div class="table-responsive">
+						<table class="table table-hover">
+              <!--
+  							<thead>
+    								<tr>
+    									<th style="text-align: center;">Name</th>
+    								</tr>
+  							</thead>
+              -->
+  							<tbody>
+
+    								<tr ng-hide="numberLinesZero2" style="text-align: ;" ng-class="{'selected':$index == 0}"  ng-repeat="person in people | filter:search | orderBy:'person.created'" >
+    									<td > <a style="background-color:white; border:none; "  href="#/details" ng-click="findDistance22($index,  person.email, person.store, person.line, person.created, person.notificationkey )" class="list-group-item active ">
+                        <div >
+                          <!--    <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left; weight:50px; height:50px;  border-style: dotted; " src="{{black2}}" > -->
+                          <img ng-hide="imageSaved" class="img-circle" style="display:block; weight:50px; height:50px; float: left; border-style: dotted; " src="img/images-3.jpeg" >
+
+                          <span style="color:black;"  >{{person.email}} <br> Position:{{$index+1}} </span>
+                         <!--  <span style="color:black;" ng-if="$index ==  0" ng-style="myObj">{{person.email}} <br> Position:{{$index+1}} </span>   -->
+                         <span style="color:black; float:right;">  {{ clock | date:'HH:mm:ss'}} <br>{{person.propertyTwo}} {{person.addstuff}}  </span>
+
+                        </div>    <!-- Need to store userid in DB then get all from DB and put in:
+                           {{"http://graph.facebook.com/" +person.iduserid+ "/picture?type=square"}} +    -->
+                      </td>
+
+                      <td style="width:80px;"  ng-show="deleteButton">
+                        <button class="btn btn-danger btn" style="float:right;  height:40px;  margin-top:10px" ng-click="deletePeople2(person.email)">Delete</button>
+                      </td>
+    								</tr>
+
+                    <tr ng-show="numberLinesZero2" style="text-align: left;"   ng-repeat="person in people | filter:search | orderBy:'person.distance'" >
+    									<td> <a style="background-color:white; border:none; text-align: left" href="/#/details" ng-click="checkPeopleFcn(person.local.email)" class="list-group-item active ">
+                          <div>
+                        <!--    <img ng-show= "imageSaved" class="img-circle" style="display:block; float: left;  weight:50px; height:50px;  border-style: dotted; " src="{{black2}}" >   -->
+                            <img ng-hide="imageSaved" class="img-circle" style="display:block; weight:50px; height:50px; float: left; border-style: dotted; " src="img/images-3.jpeg" >
+
+                            <span style="color:black;" >
+                              Person:    {{person.email}} <br>
+                              Distance:  {{person.distance}}<br>
+                              Position:   {{$index+1}}
+                            </span>
+                          </div>
+
+                      <!--      <button class="btn btn-danger btn-xs" style="float: right; " ng-click="removeName($index)">Delete</button> -->
+
+                      </td>
+
+
+                      <td  style="width:80px"  ng-show="deleteButton">
+                        <button class="btn btn-danger btn" style="float:right;  margin-top:5px" ng-click="deletePeople2(person.email)">Delete</button>
+                      </td>
+    								</tr>
+
+
+  							</tbody>
+						</table>
+					</div>
+
+          <div style="height:40px;">
+          </div>
+
+
+
+  </ion-content>
+</ion-view>

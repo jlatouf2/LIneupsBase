@@ -1,0 +1,74 @@
+<ion-view view-title="Storelines">
+  <ion-content >
+
+            <!-- HEADER -->
+      <div style="color:white; text-align: center; background: #005596 url(img/uwinBannerBG.png) repeat 0 0; vertical-align: middle;
+          line-height: 50px;   font-size: 15px;" >
+          <span style="margin-left:50px"> </span>
+          <span  style="">Lines Available </span>
+          <button type="button" class="btn btn-default" ng-click="openlinemodal1()" style="line-height: 20px;
+           background: #005596 url(img/uwinBannerBG.png) repeat 0 0;  border-style: none; float: right; font-size: 25px; margin-top:5px; margin-right:10px">
+          <span style="color:white" class="glyphicon glyphicon-plus"></span>
+          </button>
+      </div>
+
+
+            <!-- TITLE -->
+      <h1 class="bob3" style="text-align:center;">Lines Available in Store: {{grabStorename || 'StoreName Not Passed!'}} </h1>
+
+
+      <!-- DELETE BUTTON -->
+
+      <button ng-show="deleteButton" style="width:100%; height:50px; opacity: 0.5; text-align:center" ng-click="exitDeleteMode()" type="button" class="btn btn-danger">
+        DELETE MODE!<BR> PLESE PRESS ME TO EXIT!
+      </button>
+
+        <!-- SUCCESS BAR -->
+
+        <div ng-show="successful"  class="alert alert-success" style="text-align:center">
+          <strong>Success! Line Added</strong>
+        </div>
+
+        <div ng-show="failedLog"  class="alert alert-danger" style="text-align:center">
+          <strong >{{failedData}}</strong>
+        </div>
+
+
+        <!-- STORELINES TABLE -->
+
+      <div class="table-responsive">
+      	<table class="table table-hover">
+      		<thead>
+      			<tr>
+      				<th><span style="font-size:20px;"> </span>
+                <button class="btn btn-default btn" style="width:100%"  ng-click="openlinemodal2()">Add Line </button></th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr ng-hide="numberLinesZero" ng-repeat="country in countries | filter:search | orderBy:'line'">
+              				<td><a style="background-color:white; border:none; text-align: center;" href="#/peopleline" ng-click="checkLineAdminFcn(country.line)"class="list-group-item active" >
+                          <span style="color:black;">{{ country.line}} </span>
+                      </td>
+                      <td  style="width:80px"  ng-show="deleteButton">
+                        <button class="btn btn-danger btn" style="float:right; margin-top:5px" ng-click="deleteLine(country.line)">Delete</button>
+                      </td>
+            			</tr>
+                  <tr ng-show="numberLinesZero" >
+                      <td><a style="background-color:white; border:none; text-align: center;" href=""class="list-group-item active" >
+                          <span style="color:black;">THIS IS EMPTY </span>
+                      </td>
+                      <td  style="width:80px"  ng-show="deleteButton">
+                        <button class="btn btn-danger btn" style="float:right; margin-top:5px" ng-click="deleteLine(country.line)">Delete</button>
+                      </td>
+                  </tr>
+            		</tbody>
+      	</table>
+      </div>
+
+
+      <div style="height:40px;">
+      </div>
+
+
+  </ion-content>
+</ion-view>

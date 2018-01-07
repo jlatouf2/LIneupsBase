@@ -1,0 +1,159 @@
+/* Empty. Add your own CSS if you like */
+@font-face {
+    font-family: 'YourFontName'; /*a name to be used later*/
+    src: url('./mochary/Mochary_PERSONAL_USE_ONLY.ttf'); /*URL to font*/
+}
+
+.navbar-brand {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
+.selected {
+    background-color:blue;
+    color:white;
+    font-weight:bold;
+}
+
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 67%;
+  top: 300px;
+  z-index: 1;
+  width: 80px;
+  height: 80px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 }
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom {
+  from{ bottom:-100px; opacity:0 }
+  to{ bottom:0; opacity:1 }
+}
+
+#myDiv {
+  display: none;
+  text-align: center;
+}
+
+
+
+.bob {
+    font-family: YourFontName;
+}
+
+@font-face {
+    font-family: 'YourFontName2'; /*a name to be used later*/
+    src: url('./eutemia-i/Eutemia.ttf'); /*URL to font*/
+}
+
+
+.bob2 {
+    font-family: YourFontName2;
+
+}
+
+@font-face {
+    font-family: 'Playball'; /*a name to be used later*/
+    src: url('./typesetit_playball/Playball.ttf'); /*URL to font*/
+}
+
+
+.bob3 {
+    font-family: Playball;
+}
+
+
+@font-face {
+    font-family: 'Playball1'; /*a name to be used later*/
+    src: url('./majestic/Majestic Personal Use.ttf'); /*URL to font*/
+}
+
+
+.bob4 {
+    font-family: Playball1;
+}
+
+
+@font-face {
+    font-family: 'Playball2'; /*a name to be used later*/
+    src: url('./lemonism/fontinfo.txt'); /*URL to font*/
+}
+
+
+.bob5 {
+    font-family: Playball2;
+}
+
+
+@font-face {
+    font-family: 'Playball3'; /*a name to be used later*/
+    src: url('./new_athletic_m54/New Athletic M54.ttf'); /*URL to font*/
+}
+
+
+.bob6 {
+    font-family: Playball3;
+}
+
+@font-face {
+    font-family: 'Univeristy'; /*a name to be used later*/
+    src: url('./University.otf'); /*URL to font*/
+}
+
+
+.bob7 {
+    font-family: Univeristy;
+}
+
+@font-face {
+    font-family: 'Crimson'; /*a name to be used later*/
+    src: url('./crimson/TTF/Crimson-Bold.ttf'); /*URL to font*/
+}
+
+
+.bob8 {
+    font-family: Crimson;
+}
+
+@font-face {
+    font-family: 'Lato'; /*a name to be used later*/
+    src: url('./Lato2OFL/Lato-Regular.ttf'); /*URL to font*/
+}
+
+
+.bob9 {
+    font-family: Lato;
+}

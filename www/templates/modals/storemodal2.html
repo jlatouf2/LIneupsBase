@@ -1,0 +1,107 @@
+<ion-modal-view>
+  <ion-header-bar style=" margin-top:50px;">
+    <h1 class="title bob3" style="font-size: 30px; text-align:centerk;  ">Storenames Information</h1>
+
+    <div class="buttons">
+      <button class="button button-clear" style="color:black;" ng-click="closestoremodal2()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content style=" margin-top:50px;">
+
+  <div class="card">
+    <div class="item item-text-wrap">
+
+
+          <div class="bob3 " style="font-size: 25px; text-align:center">
+            <u>Please either:</u> <br><br>
+            1) Select a specified store from Table Row<br>
+            2) Create another store using Add Store Button <br>
+            3) Search for Store below
+            <br>
+            <br>
+            <hr>
+
+              <!--  THIS GETS THE LOCATION DATA:         -->
+              <!--    <p id="demo" style="font-weight: bold;"></p>
+
+              <div class="bob3 " style="font-size: 25px; text-align:center ">
+                <div id="results"></div>
+                {{Coordinates}}
+
+                {{latitude}}
+                {{longitude}}
+                <br>
+                <button ng-click="findGPS();">GetLocation</button>
+
+              </div>
+-->
+          </div>
+
+          <div class="bob3 " style="font-size: 25px; text-align:center ">
+            <div ng-if="wordspace" style="margin-top:30px; margin-bottom:30px">
+              {{words}}
+            </div>
+            {{latitude}}
+            {{longitude}}
+            <br>
+            <div ng-if="wordspace" id="loader"></div>
+            <button ng-if="wordspace" ng-click="findGPS();">GetLocation</button>
+          </div>
+
+          <hr>
+
+          <div class="bob3 " style="font-size: 25px; text-align:center">
+            <u>Store Search</u> <br><br>
+            Please use this to search for specific store: <br><br>
+          </div>
+          <div class="bar bar-header item-input-inset">
+              <label class="item-input-wrapper" >
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search" ng-model="storesearchName" placeholder="Storename">
+              </label>
+              {{addnameLine.line}}
+              <button class="button button-clear" ng-click="searchStores();" style="color:black">
+                Search
+              </button>
+
+          </div>
+
+          <br>
+          <!--
+          <div >
+
+            <table class="table">
+              <tbody>
+                <tr class="panel panel-default" style="width:100%">
+                  <td>
+                    <div>
+                      <div>
+                        <input type="text" ng-model="storesearchName" placeholder="Storename" style="background-color:gainsboro; width:100%" class="form-control" id="usr">
+
+                      </div>
+                    </div>
+
+                  </td>
+                  <td style="width:100px">
+                        <button style="font-size:14px;margin-top:2px; height:32px" ng-click="searchStores();">Search</button>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        -->
+        <!------- DELETE MODE! --------->
+        <div class="bob3" style="font-size: 20px;   text-align:center ">
+          Press to Enter Delete Mode  <br>
+          <button type="button" style="width:200px;" ng-click="deleteMode()" data-dismiss="modal" class="btn btn-danger">Delete Mode</button> <br>
+        </div>
+
+
+
+    </div>
+  </div>
+
+  </ion-content>
+</ion-modal-view>

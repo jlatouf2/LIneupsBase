@@ -1,0 +1,66 @@
+<ion-view view-title="Browse">
+  <ion-content    >
+
+  <h1 class="bob3" style="text-align: center;  "><u> Login </u></h1>
+
+
+
+  <!-- SUCCESS BUTTON -->
+
+  <div ng-show="failedLogin" class="alert alert-danger" style="text-align:center">
+    <strong >{{message.msg}}</strong>
+  </div>
+  <br>
+
+
+           <div class="list" >
+             <label class="item item-input item-stacked-label">
+               <span class="input-label bob3" style="font-size:30px">Email</span>
+               <input type="text" ng-model="email.email1" placeholder="john@suhr.com" style="font-size:20px">
+             </label>
+             <label class="item item-input item-stacked-label">
+               <span class="input-label bob3" style="font-size:30px">password</span>
+               <input type="password" ng-model="password.password1" placeholder="*******" style="font-size:20px">
+             </label>
+             <!--
+             <label class="item" sty>
+               <button class="button button-block button-positive"  ng-click="ServiceFunction5()" >Log in</button>
+             </label>
+           -->
+           </div>
+
+           <div class="bob3" style="width:300px; margin: 0 auto; ">
+               <br> <br>
+               <a type="button" style="width:300px;" class="btn btn-primary" ng-click="ServiceFunction5()">
+                 <span  style="font-size: 25px;"> Log In </span>
+               </a>
+
+               </br> </br>
+               <button  type="button" ng-click="Servicefacebook()" style="width:300px; margin: 0 auto; background-color:#3b5998" class="bob3 btn btn-primary">
+                 <spans  style="font-size: 25px;"> Facebook Login </span>
+               </button>
+           </div>
+           <!--
+           {{email.email1}}
+           {{password.password1}}
+
+           <div class="list bob3" >
+             <label class="item item-input">
+               <span class="input-label" style="font-size:30px">Email: </span>
+               <input type="text" style="font-size:20px" ng-model="email">
+             </label>
+             <label class="item item-input">
+               <span class="input-label" style="font-size:30px">Password:</span>
+               <input type="password" style="font-size:20px" ng-model="password">
+
+             </label>
+             <label class="item">
+               <button class="button button-block button-positive" menu-close href="#/storenames" ng-click="ServiceFunction5()" >Log in</button>
+             </label>
+           </div>
+         -->
+
+
+
+  </ion-content>
+</ion-view>
