@@ -859,7 +859,7 @@ app.post('/sendEmail22', function(req, res) {
                console.log(user);
 
                const sgMail = require('@sendgrid/mail');
-              sgMail.setApiKey(process.env.SENDGRID_API_KEY='blue');
+              sgMail.setApiKey(process.env.SENDGRID_API_KEY);
               const msg = {
                 to: req.body.email,
                 from: 'noreply@todosapp.io',
