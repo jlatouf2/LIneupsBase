@@ -647,7 +647,7 @@ app.post('/deletePeop', function (req, res, next) {
 })
 */
 
-/*---------- SIGNUP FUNCTION: --------------*/
+ /*---------- SIGNUP FUNCTION: --------------*/
 
 app.post('/signup22', function (req, res, next) {
   console.log(req.body.noteToken);
@@ -706,13 +706,12 @@ app.post('/tokenReturned', function(req, res) {
   console.log(req.body.token);
   res.send(req.body.token);
 });
-console.log(SENDGRID_API_KEY);
 
 //curl -X POST  http://localhost:3000/sendEmail22
 
 app.post('/sendEmail22', function(req, res) {
      const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(SENDGRID_API_KEY);
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: 'jlatouf2@gmail.com',
       from: 'noreply@todosapp.io',
