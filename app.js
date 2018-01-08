@@ -34,12 +34,17 @@ var UserStuff = require('./www/config/userinfo.js');
 var User   = require('./www/config/user');
 var Blue = require('./www/config/userblack.js');
 
+var Blue2 = require('./sendgrid.env');
+
+
+
 var validator = require('validator');
 var expressValidator = require('express-validator'); //Declare Express-Validator
 
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var randomstring = require("randomstring");
+var emailExistence = require("email-existence");
 
 app.use(expressValidator());  //required for Express-Validator
 
@@ -70,13 +75,15 @@ var mongoose = require('mongoose');
  //mongoose.connect('mongodb://localhost/myappANG' , { useMongoClient: true });
  //mongoose.connect("mongodb://john:john1@ds013891.mlab.com:13891/white");
 
-mongoose.connect("mongodb://john:john1@ds227565.mlab.com:27565/teal");
+//mongoose.connect("mongodb://john:john1@ds227565.mlab.com:27565/teal");
 
 // 3) SIMPLE CHECK TO SEE IF CONNECTED TO DB
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {    console.log('Connected to DB!');   });
+//var db = mongoose.connection;
+//db.on('error', console.error.bind(console, 'connection error:'));
+//db.once('open', function() {    console.log('Connected to DB!');   });
 
+//mongoose.connect('mongodb://john:john1@ds227565.mlab.com:27565/teal', { useMongoClient: true })
+ mongoose.connection.openUri('mongodb://john:john1@ds227565.mlab.com:27565/teal')
 
 // grab the things we need
 //  var mongoose = require('mongoose');
@@ -699,44 +706,16 @@ app.post('/tokenReturned', function(req, res) {
   console.log(req.body.token);
   res.send(req.body.token);
 });
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'jlatouf2@gmail.com',
-    pass: 'redrabbit201'
-  }
-});
-
-var mailOptions = {
-  from: 'youremail@gmail.com',
-  to: 'myfriend@yahoo.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
-
-
-//curl -X POST  http://localhost:3000/sendEmail
-
-app.post('/sendEmail', function(req, res) {
-     transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-});
-
+console.log(SENDGRID_API_KEY);
 
 //curl -X POST  http://localhost:3000/sendEmail22
 
 app.post('/sendEmail22', function(req, res) {
      const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY='blue');
+    sgMail.setApiKey(SENDGRID_API_KEY);
     const msg = {
       to: 'jlatouf2@gmail.com',
-      from: 'test@example.com',
+      from: 'noreply@todosapp.io',
       subject: 'Sending with SendGrid is Fun',
       text: 'and easy to do anywhere, even with Node.js',
       html: '<strong>and easy to do anywhere, even with Node.js</strong>',
@@ -747,89 +726,8 @@ app.post('/sendEmail22', function(req, res) {
 
 
 
-  app.post('/forgotEmail', function(req, res) {
-    console.log("email: "+req.body.email);
-
-       Blue.findOne({ email: req.body.email }, function(err, user) {
-         if (err) throw err;
-
-         if (!user) {
-           console.log('username didnt work');
-           res.status(401).send({success: false, msg: 'Email not found.'});
-         } else {
-
-            //   user.notificationkey = noteTokenvar;
-              //  user.save();
-              var secretKey = 'secrettoken';
-              var token = randomstring.generate(10);
-              console.log('TOKEN ' + token);
-
-
-               // Set the password reset token on the user object and give them 1 hour to click the link we'll send
-               user.resetPasswordToken = token;
-               user.resetPasswordExpires = Date.now() + 3600000;  // 1 hour
-               user.save();
-               console.log(user);
-
-               const sgMail = require('@sendgrid/mail');
-              sgMail.setApiKey(process.env.SENDGRID_API_KEY='blue');
-              const msg = {
-                to: req.body.email,
-                from: 'noreply@todosapp.io',
-                subject: 'Your TodoApp password reset link is here',
-                text: 'You are receiving this because you (or someone else) ',
-                html: 'You are receiving this because you (or someone else) ' +
-                    'have requested the reset of the password for your account.\n\n' +
-                    'Please take the following number '+ token +
-                    ' and insert it into the password change screen :\n\n',
-              };
-              sgMail.send(msg);
-              console.log('EMAIL SENT!');
-              res.status(200).send({success: true, msg: 'Email with token sent out!'});
-
-         }
-       });
-   });
-
-
-  app.post("/resetPassword", function (req, res) {
-    console.log('TOKEN: '+req.body.resetToken);
-        if (req.body.resetToken === undefined) {
-          res.status(401).send({success: false, message: "Please enter token!"});
-        } else {
-
-           Blue.findOne({resetPasswordToken: req.body.resetToken}, function (err, user) {
-               if (err) { res.status(500).send(err); }
-
-                if (!user) { res.status(401).send({success: false, message: "TOKEN NOT FOUND!"});}
-                  else {
-                   user.password = req.body.password || user.password;
-                   user.resetPasswordToken = undefined;
-                   user.resetPasswordExpires = undefined;
-
-                   user.save(function (err, user) {
-                     console.log('USER: '+ user);
-                       res.status(200).send({success: true, message: "Password successfully reset!"});
-                   });
-
-               }
-           });
-            }
-   });
- //curl -X POST  http://localhost:3000/sendEmail22
-
-app.post('/sendEmail22', function(req, res) {
-     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY='blue');
-    const msg = {
-      to: 'jlatouf2@gmail.com',
-      from: 'test@example.com',
-      subject: 'Sending with SendGrid is Fun',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    };
-    sgMail.send(msg);
-    console.log('EMAIL SENT!');
+ emailExistence.check('jlatouf2@gmail.com', function(err,res){
+     console.log('res: '+res);
  });
 
 
@@ -903,30 +801,9 @@ app.post('/sendEmail22', function(req, res) {
            });
             }
    });
-=======
->>>>>>> 5edfe60... Password Reset Works
 
 
 
-//curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/getBlack
-//curl -X POST  http://localhost:3000/getBlack
-
-app.post('/getBlack', function(req, res) {
-  Storeline.find({ store: 'bobby' }).where({line: '2'})
-  .exec(function(err, users) {
-  if (err) throw err;
-  if (users.lineAdmin == '1') {
-    console.log(users);
-
-  }
-  // show the admins in the past month
-  console.log(users);
-  });
-});
-
-app.post('/touchit', function(req, res) {
-  console.log('workedit!');
-});
 
 app.post('/numberofLines', function(req, res, data) {
    console.log(data);
@@ -936,43 +813,6 @@ app.post('/numberofLines', function(req, res, data) {
      });
 });
 
-
-//NOTE: THIS ONE WORKS!!!!
-
-//curl -X POST  http://localhost:3000/addNotificationtoken3
-
-app.post('/addNotificationtoken3', function(req, res) {
-Blue.findOne({ email: 'jlatouf2@gmail.com' })
-.exec(function(err, posts) {
-    if (err) { return next(err); }
-//  res.send(posts);
-//res.status(200).send(posts);
-//  posts.notificationkey = 'small';
-//  posts.save();
-
-res.status(200).json(posts);
-console.log(posts);
-  });
-});
-
-
-//curl -X POST  http://localhost:3000/findUsers
-
-app.post('/findUserTokensPeopleLine', function(req, res) {
-PeopleLine.find({})
-.exec(function(err, posts) {
-    if (err) { return next(err); }
-//  res.send(posts);
-//res.status(200).send(posts);
-//  posts.notificationkey = 'small';
-//  posts.save();
-
-//res.send(posts);
-
-res.status(200).json(posts);
-console.log(posts);
-  });
-});
 
 
 app.post('/login22999', function(req, res) {
@@ -1049,9 +889,6 @@ app.post('/addStore', function(req, res, data) {
 });
 
 
-app.post('/polling', function(req, res) {
-res.send('posts');
-  });
 
 app.post('/storeName', function(req, res, data) {
        console.log(data);
@@ -1211,34 +1048,6 @@ app.post('/getPeopleLine', function(req, res) {
 });
 
 
-app.get('/getData', function(req, res) {
-  console.log('workedit!');
-    res.send('getit!');
-});
-
-
-app.post('/postData', function(req, res, data) {
-  console.log('workedit!');
-  console.log(data);
-  res.send(data);
-});
-
-
-app.post('/postData22', function(req, res, data) {
-  console.log(data);
-  console.log(req.body.responseType);
-
-  res.send(req.body.responseType);
-});
-
-//curl -X POST  http://localhost:3000/backedTouched
-
-app.post('/backedTouched', function(req, res) {
-  console.log('workedit!');
-  console.log(req.body.email);
-  console.log(req.body.userID);
-  console.log(req.body.name);
-});
 
 
 app.post('/facebookSignupLogin', function(req, res) {
@@ -1282,22 +1091,6 @@ app.post('/facebookSignupLogin', function(req, res) {
 
 //    curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/login3333
 
-
-
-
-/*
-//https://shitapp01.herokuapp.com/#/app/login
-//https://shitapp01.herokuapp.com/auth/facebook/callback
-
-  -change callback:
-callbackURL: "https://shitapp01.herokuapp.com/auth/facebook/callback",
-
-Valid OAuth redirect URIs
-1)https://shitapp01.herokuapp.com/auth/facebook/callback
-2)App domains: shitapp01.herokuapp.com
-3)Site URL https://shitapp01.herokuapp.com
-
-*/
 
       /*---------- FACEBOOK LOGIN  --------------*/
 
@@ -1617,15 +1410,6 @@ app.post('/jp', function (req, res) {
 
 
 
-
-
-
-    //curl -X POST  http://localhost:3000/stuff
-    app.post('/stuff', function (req, res, next) {
-      console.log("Worked!");
-
-    });
-
     /*---------- CHECKLINEADMIN --------------*/
 
     app.post('/checkLineAdmin', function (req, res, next) {
@@ -1711,12 +1495,12 @@ app.post('/jp', function (req, res) {
 
 
  var now = new Date();
- console.log(""+now);
- console.log( "THIS IS DATE OBJECT:" + now.addMinutes(1));
+ //console.log(""+now);
+ //console.log( "THIS IS DATE OBJECT:" + now.addMinutes(1));
 
  var now = new Date();
- console.log(""+now);
- console.log( "THIS IS DATE OBJECT:" + now.addSeconds(1));
+ //console.log(""+now);
+ //console.log( "THIS IS DATE OBJECT:" + now.addSeconds(1));
 
 /*
  var d = new Date();
@@ -1733,11 +1517,11 @@ var n = d
 console.log(n);
 */
 var d = new Date();
-console.log(d);
+//console.log(d);
 
 d.setMilliseconds(192);
 var n = d
-console.log(n);
+//console.log(n);
 
 
     app.post('/optimizeData2', function (req, res, next) {
