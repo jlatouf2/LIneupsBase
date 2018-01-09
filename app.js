@@ -36,6 +36,7 @@ var Blue = require('./www/config/userblack.js');
 
 var Blue2 = require('./sendgrid.env');
 
+var emailCheck = require('email-check');
 
 
 var validator = require('validator');
@@ -645,12 +646,113 @@ app.post('/deletePeop', function (req, res, next) {
          })
     });
 })
-*/
 
- /*---------- SIGNUP FUNCTION: --------------*/
+app.post('/signup22', function (req, res, next) {
+ console.log(req.body.noteToken);
+//var noteTokenvar = req.body.noteToken;
+     if (req.body.password !== req.body.passwordConf) {
+        res.status(401).send({success: false, msg: 'Passwords dont match.'});
+       console.log('Passwords dont match');
+       //  return next(err);
+     } else {
+       console.log('blue');
+     if (req.body.email && req.body.fname &&
+         req.body.lname && req.body.password &&
+         req.body.passwordConf) {
+
+       var userData = {
+         email: req.body.email, firstname: req.body.fname,
+         lastname: req.body.lname, password: req.body.password,
+         passwordConf: req.body.passwordConf, notificationkey: req.body.noteToken
+       };
+
+
+
+       Blue.findOne({ email: req.body.email }, function(err, user) {
+               if (err) throw err;
+               if (user) {
+                 console.log('username didnt work');
+                 res.status(401).send({success: false, msg: 'Authentication failed. User already exists!'});
+               }  else {
+               Blue.create(userData, function (err, user) {
+                 if (err) { return next(err); }
+
+                 res.status(200).send(user);
+                   console.log(user);
+                 //  return res.redirect('/profile');
+               });
+                  }
+         })
+
+     } else {
+           res.status(401).send({success: false, msg: 'Please fill in all Userdata.'});
+     }
+
+      }
+});
+
+
+
+app.post('/signup22', function (req, res, next) {
+ console.log(req.body.noteToken);
+//var noteTokenvar = req.body.noteToken;
+     if (req.body.password !== req.body.passwordConf) {
+        res.status(401).send({success: false, msg: 'Passwords dont match.'});
+       console.log('Passwords dont match');
+       //  return next(err);
+     } else {
+       console.log('blue');
+     if (req.body.email && req.body.fname &&
+         req.body.lname && req.body.password &&
+         req.body.passwordConf) {
+
+       var userData = {
+         email: req.body.email, firstname: req.body.fname,
+         lastname: req.body.lname, password: req.body.password,
+         passwordConf: req.body.passwordConf, notificationkey: req.body.noteToken
+       };
+
+       emailExistence.check({email: req.body.email}, function(err,resblock, res){
+            if ( resblock === true) {
+               console.log('this email exists');
+
+                 Blue.findOne({ email: req.body.email }, function(err, user) {
+                         if (err) throw err;
+                         if (user) {
+                           console.log('username didnt work');
+                           res.status(401).send({success: false, msg: 'Authentication failed. User already exists!'});
+                         }  else {
+                         Blue.create(userData, function (err, user) {
+                           if (err) { return next(err); }
+
+                           res.status(200).send(user);
+                             console.log(user);
+                           //  return res.redirect('/profile');
+                         });
+                            }
+                   })
+
+           } else{
+             console.log('this email does not exist');
+             res.status(401).send({success: false, msg: 'THIS EMAIL DOES NOT EXIST!.'});
+           //   res.json({ success: true });
+           }
+       });
+
+
+     } else {
+           res.status(401).send({success: false, msg: 'Please fill in all Userdata.'});
+     }
+
+      }
+});
+
+
 
 app.post('/signup22', function (req, res, next) {
   console.log(req.body.noteToken);
+  console.log(req.body.email);
+
 //var noteTokenvar = req.body.noteToken;
       if (req.body.password !== req.body.passwordConf) {
          res.status(401).send({success: false, msg: 'Passwords dont match.'});
@@ -668,28 +770,113 @@ app.post('/signup22', function (req, res, next) {
           passwordConf: req.body.passwordConf, notificationkey: req.body.noteToken
         };
 
-        Blue.findOne({ email: req.body.email }, function(err, user) {
-                if (err) throw err;
-                if (user) {
-                  console.log('username didnt work');
-                  res.status(401).send({success: false, msg: 'Authentication failed. User already exists!'});
-                }  else {
-                Blue.create(userData, function (err, user) {
-                  if (err) { return next(err); }
+               emailCheck('jlatouf2@gmail.com').then(function (data) {
+                   console.log('true');
+                          Blue.findOne({ email: req.body.email }, function(err, user) {
+                               if (err) throw err;
+                               if (user) {
+                                 console.log('username didnt work');
+                                  res.status(401).send({success: false, msg: 'Authentication failed. User already exists!'});
+                               }  else {
+                               Blue.create(userData, function (err, user) {
+                                 if (err) { return next(err); }
 
-                  res.status(200).send(user);
-                    console.log(user);
-                  //  return res.redirect('/profile');
-                });
-                   }
-          })
+                                 res.status(200).send(user);
+                                   console.log(user);
+                                 //  return res.redirect('/profile');
+                               });
+                                  }
+                         })
+               })
 
-      } else {
-            res.status(401).send({success: false, msg: 'Please fill in all Userdata.'});
-      }
+              .catch(function (err) {
+               res.status(401).send({success: false, msg: 'email does not work.'})
+               console.log('error');
+
+             });
+
+
+      } else { res.status(401).send({success: false, msg: 'Please fill in all Userdata.'}) }
 
        }
 });
+
+*/
+
+  /*---------- SIGNUP FUNCTION: --------------*/
+
+app.post('/signup2233', function (req, res, next) {
+  console.log(req.body.noteToken);
+  console.log(req.body.email);
+
+//var noteTokenvar = req.body.noteToken;
+      if (req.body.password !== req.body.passwordConf) {
+         res.status(401).send({success: false, msg: 'Passwords dont match.'});
+        console.log('Passwords dont match');
+        //  return next(err);
+      } else {
+        console.log('blue');
+      if (req.body.email && req.body.fname &&
+          req.body.lname && req.body.password &&
+          req.body.passwordConf) {
+
+        var userData = {
+          email: req.body.email, firstname: req.body.fname,
+          lastname: req.body.lname, password: req.body.password,
+          passwordConf: req.body.passwordConf, notificationkey: req.body.noteToken
+        };
+          console.log(req.body.email);
+               emailCheck(req.body.email)
+               .then(function (data) {
+                   console.log('true');
+                          Blue.findOne({ email: req.body.email }, function(err, user) {
+                               if (err) throw err;
+                               if (user) {
+                                 console.log('username didnt work');
+                                  res.status(401).send({success: false, msg: 'Authentication failed. User already exists!'});
+                               }  else {
+                               Blue.create(userData, function (err, user) {
+                                 if (err) { return next(err); }
+
+                                 res.status(200).send(user);
+                                   console.log(user);
+                                 //  return res.redirect('/profile');
+                               });
+                                  }
+                         })
+               })
+
+              .catch(function (err) {
+               res.status(401).send({success: false, msg: 'email does not work.'})
+               console.log('error');
+
+             });
+
+
+      } else { res.status(401).send({success: false, msg: 'Please fill in all Userdata.'}) }
+
+       }
+});
+
+//curl -X POST  http://localhost:3000/asyncStuff
+var async = require('async');
+
+app.post('/asyncStuff', function(req, res, next) {
+
+  async.waterfall([
+      function(callback) {
+        console.log('worked!');
+
+      },
+      function(txt, callback) {
+        console.log('slkdjflskdjflsd!');
+
+      }
+  ], function (err, result) {
+       console.log('Appended text!');
+  });
+
+ });
 
 
 
@@ -698,14 +885,9 @@ app.post('/signup22', function (req, res, next) {
 /*   var Blue = require('./models/userblack.js');
 //curl -X POST  http://localhost:3000/login22999
 curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf23333@gmail.com", "password":"jarredl"}' http://localhost:3000/login22999
-curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/login22999
-*/
+curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/singup22
 
-app.post('/tokenReturned', function(req, res) {
-  console.log('workedit!');
-  console.log(req.body.token);
-  res.send(req.body.token);
-});
+*/
 
 //curl -X POST  http://localhost:3000/sendEmail22
 
@@ -724,12 +906,31 @@ app.post('/sendEmail22', function(req, res) {
  });
 
 
+//curl -X POST  http://localhost:3000/checkMail34
+//curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmail.com"}' http://localhost:3000/checkMail34
+ app.post('/checkMail34', function(req, res, next) {
+   emailCheck(req.body.email)
+     .then(function (data) {   res.send('true') })
+       .catch(function (err) {
+        res.send('err')
+      });
 
- emailExistence.check('jlatouf2@gmail.com', function(err,res){
-     console.log('res: '+res);
  });
 
+ //curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmai3l.com"}' http://localhost:3000/rollman
+ //curl -X POST  http://localhost:3000/rollman
+ app.post('/rollman',(req,res) => {
+   emailCheck(req.body.email)
+       .then(data => {
+         const { title, body } = data;
+         res.send('blue')
+       })
+        .catch(error => {
+         res.send('error')
+       })
+ })
 
+ //curl -X POST  http://localhost:3000/checkMail
 
   app.post('/forgotEmail', function(req, res) {
     console.log("email: "+req.body.email);
@@ -801,9 +1002,6 @@ app.post('/sendEmail22', function(req, res) {
             }
    });
 
-
-
-
 app.post('/numberofLines', function(req, res, data) {
    console.log(data);
    Storeline.find({store: req.body.store}, function( err, count){
@@ -812,7 +1010,7 @@ app.post('/numberofLines', function(req, res, data) {
      });
 });
 
-
+// curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmail.com", "password" : "jlatouf"}' http://localhost:3000/login22999
 
 app.post('/login22999', function(req, res) {
   console.log('PASSED TO BACKEND!');

@@ -59,4 +59,14 @@ Blue.methods.comparePassword = function (passw, cb) {
     });
 };
 
+Blue.methods.checkEmailstuff = function (passw, cb) {
+    emailExistence.check('jlatouf2@gmail.com', function(err,res){
+        //console.log('res: '+res);
+        if (err) {
+            return cb(err);
+        }
+        cb(null, res);
+    });
+};
+
 module.exports = mongoose.model('userstuff22', Blue);
