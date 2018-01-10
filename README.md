@@ -22,7 +22,7 @@ A starting project for Ionic that optionally supports using custom SCSS.
 -       To update the app for future releases:
 
 ******  REMEMBER TO CHANGE THE VERSIONCODE TO A HIGHER NUMBER, MAY NEED HIGHER THAN 3******
-1)ionic cordova build android --release -- -- --versionCode=12
+1)ionic cordova build android --release -- -- --versionCode=13
 [change name to HelloWorld]
 
 2)Sign your release build with the key from your keystore. In below example the keystore is in the root of your project, but of course it's also possible to define another path:
@@ -127,6 +127,7 @@ WILL NOT AUTO GENERATE IN PLATFORMS/IOS/MYAPP/RESOURSES/RESEARSES]
 7) SEND PUSH WITH FIREBASE CONSOLE.....
 
 
+ionic cordova plugin add --save cordova-plugin-facebook4 --variable APP_ID="my_app_id" --variable APP_NAME="my_app_name" --variable CHANNEL_NAME="master"
 
     TO MAKE THE FACEBOOK LOGIN RUN:
 1) cordova plugin add cordova-plugin-facebook4 --save --variable APP_ID="2042335766002685" --variable APP_NAME="Androidexample02"
@@ -174,3 +175,7 @@ var watchCurrentLocation = function() {
 
   1)CHANGE THE APP.JS  to actual email address:
        to: req.body.email,  to this:    to: 'jlatouf2@gmail.com',
+
+
+-REMOVE PHONEGAP-PLUGIN-PUSH
+-ionic cordova platform remove phonegap-plugin-push
