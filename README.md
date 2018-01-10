@@ -178,4 +178,10 @@ var watchCurrentLocation = function() {
 
 
 -REMOVE PHONEGAP-PLUGIN-PUSH
--ionic cordova platform remove phonegap-plugin-push
+-ionic cordova plugin remove phonegap-plugin-push
+
+to change App Name:
+1) delete all three PLATFORMS
+2) add platforms back
+3) remove phonegap plugin-push
+4) update googleservice-info.plist in ios for it to work.

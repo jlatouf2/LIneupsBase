@@ -1,16 +1,21 @@
+<ion-view view-title="Shift">
+  <ion-content   >
+
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
 
-      <div ng-show="successMessage" class="alert alert-success">
-        <strong>Success!</strong> An email has been sent to your account to resent password!
-      </div>
-
-      <div ng-show="failedMessage"  class="alert alert-danger" style="text-align:center">
-        <strong >{{failedData}}</strong>
-      </div>
-
 
         <h3>Email Password Reset</h3>
+
+        <div ng-show="successMessage" class="alert alert-success">
+          <strong>Success!</strong> An email has been sent to your account to resent password!
+        </div>
+
+        <div ng-show="failedMessage"  class="alert alert-danger" style="text-align:center">
+          <strong >{{failedData}}</strong>
+        </div>
+        
+
         <p>In order to verify your identity and reset your password, please provide the email you used when you originally signed up with the Todo App.</p>
         <form>
             <div class="form-group">
@@ -22,3 +27,6 @@
         </form>
     </div>
 </div>
+
+</ion-content >
+</ion-view>

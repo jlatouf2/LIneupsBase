@@ -1369,6 +1369,11 @@ angular.module('starter.controllers', [])
 
  .controller('LoginCtrl', function($scope, $location, $http, $rootScope, $timeout, AuthService ) {
 
+  /* document.addEventListener("deviceready", function() {
+     window.FirebasePlugin.grantPermission();
+               }, false);
+*/
+
               $scope.noteToken = localStorage.getItem("TokenData");
              $scope.email = {email1 : "jlatouf2@gmail.com333"};
              $scope.password = {password1 : "jarredl"};

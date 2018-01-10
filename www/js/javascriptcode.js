@@ -1,25 +1,49 @@
 "use strict";
 //window.alert('message');
 
-/*
+
 document.addEventListener("deviceready", function() {
 
-    window.FirebasePlugin.getToken(function(token) {
-    // save this server-side and use it to push notifications to this device
-    // save this server-side and use it to push notifications to this device
-    window.alert(token);
-   localStorage.setItem("TokenData", token);
-   var myToken = localStorage.getItem("TokenData");
-   $rootScope.noteToken = myToken;
-   window.alert(myToken);
+      window.FirebasePlugin.hasPermission(function(data){
+      //  window.alert(data.isEnabled);
+        if (data.isEnabled !== true) {
+          window.FirebasePlugin.grantPermission();
+        }
+    });
 
-    window.alert(token);
-}, function(error) {
-    window.alert(error);
-});
+      window.FirebasePlugin.onNotificationOpen(function(data) {
+
+      //window.alert("open2");
+
+        if(data.tap){
+
+          setTimeout(function(){
+            window.alert("I am tapped" + JSON.stringify(data) );
+            window.alert( JSON.stringify(data.message) );
+           }, 0);
+
+          }else{
+               setTimeout(function(){
+                alert( "I am not tapped" +JSON.stringify(data) );
+                 alert( "ITS YOUR TURN IN LINE." );
+                 alert( JSON.stringify(data.message) );
+
+                 window.location.href = "#/peopleline";
+                 alert( "PLEASE REMOVE YOURSELF FROM THE LINEUP WHEN YOU ARE FINISHED");
+               }, 0);
+
+               setTimeout(function() {
+                  angular.element(document.getElementById('YourElementId')).scope().notifyDeleteperson();
+              }, 3000);
+               }
+          },
+
+          function(msg){  alert( "Success callback " +msg);},
+          function(err){   alert( "Error callback " +err ); });
+        //    window.alert("DEVICE RESUMED");
 
 }, false);
-*/
+
 
 
 //setTimeout(function() {   angular.element(document.getElementById('YourElementId')).scope().myfunction22(); }, 1000);
@@ -98,7 +122,24 @@ function myFunction() {   alert('funciton called');    }
 
 
 
+
 /*
+
+
+
+
+document.addEventListener("active", onResume, false); function onResume() {
+  window.alert(data.isEnabled);
+
+      window.FirebasePlugin.hasPermission(function(data){
+        window.alert(data.isEnabled);
+        if (data.isenabled !== true) {
+          window.FirebasePlugin.grantPermission();
+        }
+    });
+  window.alert("DEVICE RESUMED");
+}
+
 
 document.addEventListener("active", onResume, false); function onResume() {
   window.alert('this functions')

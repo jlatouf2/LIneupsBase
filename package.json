@@ -41,7 +41,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "cordova-android": "~6.3.0",
-    "cordova-browser": "^5.0.1",
+    "cordova-browser": "~5.0.3",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-badge": "^0.8.5",
     "cordova-plugin-compat": "^1.2.0",
@@ -76,7 +76,6 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
-    "phonegap-plugin-push": "^2.1.2",
     "randomstring": "^1.1.5",
     "session": "^0.1.0",
     "socket.io": "^2.0.4",
@@ -97,9 +96,6 @@
         "APP_ID": "2042335766002685",
         "APP_NAME": "Androidexample02"
       },
-      "phonegap-plugin-push": {
-        "SENDER_ID": "901561854903"
-      },
       "cordova-plugin-x-toast": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-local-notification": {},
@@ -107,9 +103,9 @@
       "ionic-plugin-keyboard": {}
     },
     "platforms": [
+      "ios",
       "android",
-      "browser",
-      "ios"
+      "browser"
     ]
   }
 }
