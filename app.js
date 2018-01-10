@@ -805,7 +805,7 @@ app.post('/signup22', function (req, res, next) {
 
   /*---------- SIGNUP FUNCTION: --------------*/
 
-app.post('/signup2233', function (req, res, next) {
+app.post('/signup22', function (req, res, next) {
   console.log(req.body.noteToken);
   console.log(req.body.email);
 
@@ -886,6 +886,7 @@ app.post('/asyncStuff', function(req, res, next) {
 //curl -X POST  http://localhost:3000/login22999
 curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf23333@gmail.com", "password":"jarredl"}' http://localhost:3000/login22999
 curl -X POST -H 'Content-Type: application/json' -d '{"email":"davidwalshr","password":"fsomethingt"}' http://localhost:3000/singup22
+curl -X POST -H 'Content-Type: application/json' -d '{"fname":"davidwalshr","lname":"davidwalshr","email":"davidwalshr","password":"fsomethingct", "passwordConf": "fsomethingt"}' http://localhost:3000/checkMailing
 
 */
 
@@ -916,6 +917,48 @@ app.post('/sendEmail22', function(req, res) {
       });
 
  });
+
+
+
+ //curl -X POST  http://localhost:3000/checkMailing
+ //curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmail.com"}' http://localhost:3000/checkMail34
+  app.post('/checkMailing', function(req, res, next) {
+    emailCheck(req.body.email)
+      .then(function (data) {   console.log('blue'); })
+      .then(blue(req, res, next))
+      .then(black(ful, rej))
+
+        .catch(function (err) {
+         res.send('err')
+       });
+  });
+
+function blue (req, res, next) {
+    console.log('black1');
+  console.log(req.body.password);
+    if (req.body.password !== req.body.passwordConf) {
+       res.status(401).send({success: false, msg: 'Passwords dont match.'});
+      console.log('Passwords dont match');
+      res.end();
+   }
+
+}
+
+function black (ful, rej) {
+
+  return new Promise(function(resolve, reject) {
+  // imagine this did something with the data
+  rej('data invalid');
+})
+
+  console.log('black2');
+/*  if (req.body.email && req.body.fname &&
+      req.body.lname && req.body.password &&
+      req.body.passwordConf) {
+*/
+}
+
+
 
  //curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmai3l.com"}' http://localhost:3000/rollman
  //curl -X POST  http://localhost:3000/rollman
@@ -1363,9 +1406,6 @@ app.post('/facebookSignupLogin', function(req, res) {
           ));
 
 
-
-
-
    // =========================================================================
    // GOOGLE ==================================================================
    // =========================================================================
@@ -1415,24 +1455,6 @@ app.post('/facebookSignupLogin', function(req, res) {
 
 
       });
-
-/*
-<strong>id</strong>: <%= user.google.id %><br>
-<strong>token</strong>: <%= user.google.token %><br>
-<strong>email</strong>: <%= user.google.email %><br>
-<strong>name</strong>: <%= user.google.name %>
-
-
--change callback:
-callbackURL: "https://shitapp01.herokuapp.com/auth/google/callback",
-
-Valid OAuth redirect URIs
-1)https://shitapp01.herokuapp.com/auth/google/callback
-2)App domains: shitapp01.herokuapp.com
-3)Site URL https://shitapp01.herokuapp.com
-
-
-*/
 
 
    passport.use(new GoogleStrategy({
