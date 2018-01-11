@@ -1053,6 +1053,15 @@ app.post('/numberofLines', function(req, res, data) {
      });
 });
 
+
+app.post('/getArray', function(req, res, data) {
+  console.log('sklfdlsdkj');
+   console.log(req.body.foo);
+   //console.log(req.body.foo);
+res.send(req.body.foo);
+
+ });
+
 // curl -X POST -H 'Content-Type: application/json' -d '{"email":"jlatouf2@gmail.com", "password" : "jlatouf"}' http://localhost:3000/login22999
 
 app.post('/login22999', function(req, res) {

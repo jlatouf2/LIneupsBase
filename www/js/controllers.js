@@ -215,6 +215,38 @@ angular.module('starter.controllers', [])
           $scope.password.password1, $scope.passwordConf.passwordConf1,  $rootScope.noteToken );
         };
 
+
+        $scope.pushArray = function(dataExample) {
+
+          console.log(dataExample);
+          var obj = JSON.parse(dataExample);
+          console.log(obj);
+
+              var foo = { "results": [
+            { "id": 12, "name": "Test" },
+            { "id": 2, "name": "Beispiel" },
+            { "id": 3,  "name": "Sample" } ] };
+
+              $http.post('http://192.168.1.115:3000/getArray',
+              { foo: dataExample } )
+              .success(function( data) {
+                console.log (data);
+                console.log(data.results);
+                console.log(data.results[0]);
+                console.log(data.results[name]);
+                console.log(data.results[1].name);
+
+
+                //  data[1]['addstuff'] = 'sounds good';
+
+               })
+               .error(function (data) {
+                            console.log(data);
+                });
+
+          };
+
+
        /*  $scope.ServiceFunction5 = function () {console.log("clicked22");AuthService.LoginExample3($scope.email, $scope.password);}; */
 
       //FACEBOOK SERVICE.JS LOGIN:
@@ -373,8 +405,10 @@ angular.module('starter.controllers', [])
           $scope.$on('$stateChangeSuccess', function () {
             socket.emit('storeName', {postal: $scope.postal },function (data) {
                   console.log(data);    console.log(data[0].store);
-                  $scope.numberLinesZero = false;
-                  $scope.$apply(function () {   $scope.storewithNames = data;  });
+                //  $scope.numberLinesZero = false;
+                //  $scope.$apply(function () {   $scope.storewithNames = data;  });
+                  $timeout(function () { $scope.numberLinesZero = false; $scope.storewithNames = data; }, 0);
+
              });
            });
 
@@ -418,21 +452,39 @@ angular.module('starter.controllers', [])
             };
 
 
+      /*      $rootScope.successMessage2 = true;
+            $rootScope.successnote = data.message;
+            $timeout(function(){ $rootScope.successMessage2 = false;   },3000);
+             })
+             .error(function (data) {
+               console.log(data);
+               $rootScope.failedData2 = data.message; $rootScope.failedMessage2 = true;
+           $timeout(function(){  $rootScope.failedMessage2 = false; },5000);
+               });
+*/
                $scope.storeName ={sname:""};
 
               /*   --------ADDS STORE TO DB-----------     */
             $scope.addStore1 = function(name){
                   if ( $scope.storeName.sname == '') {
+                     $scope.failedLogin = true;
+                     $scope.failedData = 'Please enter a name';
+                     $timeout(function () { $scope.failedLogin = false; console.log('BLUE'); }, 3000);
+
                     console.log('Please enter a name');
                       } else{
                       socket.emit('addStore',  {store : $scope.storeName.sname, email: $scope.useremail, postal: $scope.postal, latitude: localStorage.getItem("StoreLatitude"),
                         longitude: localStorage.getItem("StoreLongitude"), Adminpassword: $scope.usertoken },function (data) {
-                           $scope.failedLogin = true; console.log(data);
+                            console.log(data);
                         //  $scope.$apply(function () { $scope.failedData = data;  });
 
-                           $scope.failedData = data;
+                      //  $scope.failedData = data; $scope.failedLog = true;
+                      //  setTimeout(function(){ stopFailureBar(); }, 3000);
+                      //  $timeout(function () { $scope.failedLog = false; }, 3000);
 
-                              $timeout(function () { $scope.failedLogin = false; console.log('BLUE'); }, 3000);
+                      $timeout(function () {   $scope.failedData = data;   $scope.failedLogin = true; }, 0);
+
+                              $timeout(function () { $scope.failedLogin = false; }, 3000);
                           //  $scope.storeName.sname == '';
                       });
                    }
@@ -440,15 +492,22 @@ angular.module('starter.controllers', [])
 
           socket.on('addStorename', function (data) {
                  console.log($scope.storewithNames); console.log(data);
-                 $rootScope.successful = true;
-                 $scope.$apply(function () { $scope.storewithNames.push(data); });
-               setTimeout(function(){ stopSuccessBar(); }, 3000);
+                 $timeout(function () {  $scope.successMessage = true; $scope.successData = data.store}, 0);
+
+                // $rootScope.successful = true;
+                // $scope.$apply(function () { $scope.storewithNames.push(data); });
+                 $timeout(function () { $scope.storewithNames.push(data); }, 0);
+
+              // setTimeout(function(){ stopSuccessBar(); }, 3000);
+               $timeout(function () { $scope.successMessage = false;   }, 3000);
+
           });
 
 
           /*   --------TIMEOUT FCN-----------     */
           function stopSuccessBar () {
-              $scope.$apply(function () { $rootScope.successful = false; console.log($scope.successful); });    }
+            //  $scope.$apply(function () { $rootScope.successful = false; console.log($scope.successful); });    }
+              $timeout(function () { $scope.storewithNames.push(data); }, 0);
 
             /*   --------DELETENAME-----------     */
 
@@ -1504,6 +1563,49 @@ angular.module('starter.controllers', [])
                      });
               }
            };
+
+
+       $scope.pushArray = function(dataExample) {
+
+         console.log(dataExample);
+
+         var obj = JSON.parse(dataExample);
+         console.log(obj);
+
+
+
+         var foo = { "results": [
+       { "id": 12, "name": "Test" },
+       { "id": 2, "name": "Beispiel" },
+       { "id": 3,  "name": "Sample" } ] };
+      // console.log(foo.results[0]);
+        //foo.results.push({ "id": 3,  "name": "Sample" } );
+      //  foo.results.push(obj);
+
+      //   console.log(foo);
+
+      //    var json = [{"cool":"34.33"},{"alsocool":"45454"}];
+        //  json.push({"coolness":"34.33"});
+        //  console.log(json);
+
+
+
+         $http.post('http://192.168.1.115:3000/getArray',
+         { foo: dataExample } )
+         .success(function( data) {
+           console.log (data);
+           console.log(data.results);
+           console.log(data.results[0]);
+
+          })
+          .error(function (data) {
+                       console.log(data);
+           });
+
+         };
+
+
+
     })
 
 .controller('ResetCtrl', function($scope, $location, $http, $rootScope, $timeout ) {
