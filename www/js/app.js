@@ -98,6 +98,12 @@ angular.module('starter', ['ionic', 'starter.controllers',  'ngCordova'])
           controller: 'ResetCtrl'
       })
 
+      .state('chart', {
+          url: '/chart',
+          templateUrl: 'templates/chart.html',
+          controller: 'ChartCtrl'
+      })
+
         .state('home', {
             url: "/home",
             templateUrl: "templates/home.html",

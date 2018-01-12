@@ -128,21 +128,6 @@ io.on('connection', function(socket){
   //  socket.emit('passInfoBack', { description: 'A custom event named testerEvent!'});
       });
 
-/*
-      app.post('/stuffwhite', function (req, res) {
-      req.assert('name', 'Name is required').notEmpty().trim().withMessage('must be an name');
-
-       //Validate name
-      req.assert('email', 'A valid email is required').trim().isEmail();
-      req.assert('password', 'Password must be at least 4 characters long').len(4);
-      var errors = req.validationErrors();
-      //if (errors) return res.send(errors);
-
-      if (errors) return res.status(400).send(errors);
-      console.log('black');
-      console.log(req.body.email);
-      });
-*/
 
       socket.on('storeName', function (data, callback) {
         console.log('data passed'); console.log(data);
@@ -1631,25 +1616,6 @@ app.post('/jp', function (req, res) {
 
 
 
-
-    /*---------- CHECKLINEADMIN --------------*/
-
-    app.post('/checkLineAdmin', function (req, res, next) {
-      var bob = req.body.store;    var bob2 = req.body.Adminpassword;
-      console.log("Store: "+ bob);  console.log("Admin: "+ bob2);
-
-      if(bob2 !== undefined) {
-
-         Store.find( {store: req.body.store, Adminpassword: req.body.Adminpassword})
-          .exec(function(err, posts) {
-            if (err) { return next(err); }
-          res.send(posts);  console.log(posts);
-      //Either passes no data back: store that doesn't have Adminpassword or passes store with Adminpassword
-    });
-      } else{
-        console.log("Adminpassword was equal to undefined so query did not run!");
-      }
-    });
 
 
     /*---------- ADDSTORE FUNCTION: --------------*/
