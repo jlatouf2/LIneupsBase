@@ -185,3 +185,9 @@ to change App Name:
 2) add platforms back
 3) remove phonegap plugin-push
 4) update googleservice-info.plist in ios for it to work.
+
+
+//$state.go('home')
+//  $location.path('/home');
+//  window.location.href = "#/home";
+//  window.location.replace("#/home");

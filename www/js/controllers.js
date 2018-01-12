@@ -336,22 +336,23 @@ angular.module('starter.controllers', [])
 
 .controller('storeNamesCtrl', function($scope, $location, $http, $timeout, $cordovaGeolocation, $rootScope, $state, $ionicModal, $ionicHistory, AuthService) {
 
-  /*
-  ALL THAT HAS TO BE DONE IS TO:
-  1) USE THE DISTANCE FORMULA FOR THIS ONE JUST LIKE IN peopleLine
-  2) THE SMALLEST NUMBER IS THE CLOSEST TO YOU, AND THEN YOU JUST ARRANGE THEM
-      LIKE PEOPLELINE AS WELL
-
-  */
-
+        /*   --------BACK BUTTON-----------     */
 
           $rootScope.goback2 = function(){
             console.log('clicked1'); $ionicHistory.goBack();
-            //$state.go('home')
-            //  $location.path('/home');
-          //  window.location.href = "#/home";
-          //  window.location.replace("#/home");
-        };
+         };
+
+         /*   --------STATECHANGE-----------     */
+
+         $scope.$on('$stateChangeSuccess', function () {
+           socket.emit('storeName', {postal: $scope.postal },function (data) {
+                 console.log(data);    console.log(data[0].store);
+                  $timeout(function () { $scope.numberLinesZero = false; $scope.storewithNames = data; }, 0);
+
+            });
+          });
+
+         /*   --------MODALS-----------     */
 
           // Template for Storenames Modal
           $ionicModal.fromTemplateUrl('templates/modals/storemodal1.html', { scope: $scope
@@ -370,6 +371,7 @@ angular.module('starter.controllers', [])
           $timeout(function(){ $scope.modal2.show();   },0);
 
 
+          /*   --------COORDINATES-----------     */
 
           $scope.findGPS = function(){
             setTimeout(function() {
@@ -402,21 +404,12 @@ angular.module('starter.controllers', [])
           };
 
 
-          $scope.$on('$stateChangeSuccess', function () {
-            socket.emit('storeName', {postal: $scope.postal },function (data) {
-                  console.log(data);    console.log(data[0].store);
-                //  $scope.numberLinesZero = false;
-                //  $scope.$apply(function () {   $scope.storewithNames = data;  });
-                  $timeout(function () { $scope.numberLinesZero = false; $scope.storewithNames = data; }, 0);
 
-             });
-           });
+    /*     socket.on('updateStores', function (data) {
+                 $timeout(function () {$scope.numberLinesZero = false; $scope.storewithNames = data;  }, 0);
 
-         socket.on('updateStores', function (data) {
-                console.log(data); $scope.numberLinesZero = false;
-               $scope.$apply(function () { $scope.storewithNames = data;  });
          });
-
+*/
 
           /*   --------STARTPAGE FUNCTION-----------     */
                 startPage();
@@ -427,60 +420,48 @@ angular.module('starter.controllers', [])
           }
 
 
-          /*   --------GETS STORES-----------     */
+          /*   --------GETS STORES-----------
           function getStoreNamesAfterCoordinates () {
                  socket.emit('storeName', {postal: $scope.postal },function (data) {
                      console.log(data); console.log(data[0].store);
-                   $scope.numberLinesZero = false;
-                   $scope.$apply(function () { $scope.storewithNames = data; });
+                    $timeout(function () {
+                       $scope.numberLinesZero = false;
+                      $scope.storewithNames = data;
+                    }, 0);
                  });
             }
+ */
 
-
-            socket.on('updateStores', function (data) {
+      /*      socket.on('updateStores', function (data) {
                    console.log(data);  $scope.numberLinesZero = false;
-                  $scope.$apply(function () {  $scope.storewithNames = data;  });
+                //  $scope.$apply(function () {  $scope.storewithNames = data;  });
+                  $timeout(function () { $scope.storewithNames = data;  }, 0);
             });
-
+*/
 
             /*   --------SEARCHES STORES-----------     */
           $scope.searchStores = function(){
                 socket.emit('storenameSearch',  {store: $scope.storesearchName },function (data) {
                   console.log("Data is returned: " + data);
-                     $scope.$apply(function () { $scope.storewithNames = data; });
+                      $timeout(function () { $scope.storewithNames = data;  }, 0);
                 });
             };
 
 
-      /*      $rootScope.successMessage2 = true;
-            $rootScope.successnote = data.message;
-            $timeout(function(){ $rootScope.successMessage2 = false;   },3000);
-             })
-             .error(function (data) {
-               console.log(data);
-               $rootScope.failedData2 = data.message; $rootScope.failedMessage2 = true;
-           $timeout(function(){  $rootScope.failedMessage2 = false; },5000);
-               });
-*/
-               $scope.storeName ={sname:""};
+                $scope.storeName ={sname:""};
 
               /*   --------ADDS STORE TO DB-----------     */
             $scope.addStore1 = function(name){
                   if ( $scope.storeName.sname == '') {
-                     $scope.failedLogin = true;
-                     $scope.failedData = 'Please enter a name';
-                     $timeout(function () { $scope.failedLogin = false; console.log('BLUE'); }, 3000);
+
+                   $timeout(function () { $scope.failedLogin = true;  $scope.failedData = 'Please enter a name'; }, 0);
+                   $timeout(function () { $scope.failedLogin = false;  }, 3000);
 
                     console.log('Please enter a name');
                       } else{
                       socket.emit('addStore',  {store : $scope.storeName.sname, email: $scope.useremail, postal: $scope.postal, latitude: localStorage.getItem("StoreLatitude"),
                         longitude: localStorage.getItem("StoreLongitude"), Adminpassword: $scope.usertoken },function (data) {
                             console.log(data);
-                        //  $scope.$apply(function () { $scope.failedData = data;  });
-
-                      //  $scope.failedData = data; $scope.failedLog = true;
-                      //  setTimeout(function(){ stopFailureBar(); }, 3000);
-                      //  $timeout(function () { $scope.failedLog = false; }, 3000);
 
                       $timeout(function () {   $scope.failedData = data;   $scope.failedLogin = true; }, 0);
 
@@ -492,36 +473,29 @@ angular.module('starter.controllers', [])
 
           socket.on('addStorename', function (data) {
                  console.log($scope.storewithNames); console.log(data);
-                 $timeout(function () {  $scope.successMessage = true; $scope.successData = data.store}, 0);
-
-                // $rootScope.successful = true;
-                // $scope.$apply(function () { $scope.storewithNames.push(data); });
-                 $timeout(function () { $scope.storewithNames.push(data); }, 0);
-
-              // setTimeout(function(){ stopSuccessBar(); }, 3000);
-               $timeout(function () { $scope.successMessage = false;   }, 3000);
+                 $timeout(function () {
+                   $scope.successMessage = true;
+                      $scope.successData = data.store;
+                      $scope.storewithNames.push(data);
+                    },
+                   0);
+                $timeout(function () { $scope.successMessage = false;   }, 3000);
 
           });
-
-
-          /*   --------TIMEOUT FCN-----------     */
-          function stopSuccessBar () {
-            //  $scope.$apply(function () { $rootScope.successful = false; console.log($scope.successful); });    }
-              $timeout(function () { $scope.storewithNames.push(data); }, 0);
 
             /*   --------DELETENAME-----------     */
 
           $scope.deleteName2 = function(name) {
-              console.log("name is: "+name);  $scope.storeName2 = name;
-              console.log($scope.storeName2);
+             $scope.storeName2 = name;
                socket.emit('deleteStore44',  {store:  $scope.storeName2  },function (data) {
                console.log(data); alert(data);
              });
            };
 
         socket.on('deleteUpdate', function (data) {
-              $scope.$apply(function () {   console.log(data); $scope.storewithNames = data; });
+               $timeout(function () { console.log(data); $scope.storewithNames = data;  }, 0);
         });
+
 
           /*   --------DELETE MODE TOGGLE-----------     */
           $scope.deleteMode = function(){   $rootScope.deleteButton = true; $scope.closestoremodal2();   };
@@ -549,6 +523,25 @@ angular.module('starter.controllers', [])
 
 
        $rootScope.goback2 = function(){ console.log('clicked2');  $ionicHistory.goBack(); };
+
+
+       /*   --------STATE CHANGE-----------     */
+
+       $scope.$on('$stateChangeSuccess', function () {
+         console.log('STATECHANGE ON!!!' + localStorage.getItem("StoreName"));
+         socket.emit('numberofLines',  {store:  localStorage.getItem("StoreName")  },function (data) {
+           console.log(data); console.log(data.length);
+
+             $timeout(function () {
+               $rootScope.numberLines= data.length;  $scope.countries = data; $scope.whiteLines();
+               }, 0);
+
+          /*   $rootScope.numberLines= data.length;   $scope.countries = data;
+             $scope.$apply(function () {   $scope.whiteLines();   });
+                */
+         });
+        });
+
 
       // Template for Storenames Modal
       $ionicModal.fromTemplateUrl('templates/modals/linemodal1.html', { scope: $scope
@@ -578,18 +571,6 @@ angular.module('starter.controllers', [])
        };
 
 
-       $scope.$on('$stateChangeSuccess', function () {
-         console.log('STATECHANGE ON!!!' + localStorage.getItem("StoreName"));
-         socket.emit('numberofLines',  {store:  localStorage.getItem("StoreName")  },function (data) {
-           console.log(data); console.log(data.length);
-             $rootScope.numberLines= data.length;   $scope.countries = data;
-             $scope.$apply(function () {
-                      $scope.whiteLines();
-                });
-         });
-        });
-
-
          /*   --------DELETE MODE-----------     */
          $scope.deleteMode = function(){     $rootScope.deleteButton = true; $scope.closelinemodal1();    };
 
@@ -617,12 +598,15 @@ angular.module('starter.controllers', [])
             //           if ( $scope.grabStorename == undefined) {
            if ( localStorage.getItem("StoreName") == undefined || null) {
              console.log('Please get store name!');
+             $timeout(function () { $scope.failedData = 'Please get store name!'; $scope.failedLog = true; }, 0);
+
                } else{
               socket.emit('addLine1',  {store : localStorage.getItem("StoreName"),
               line: $scope.addNumberDB, lineAdmin: "1" },function (data) {
                 console.log(data);
-                //    THIS ADD SUCCESS BAR:
-                  $scope.failedData = data; $scope.failedLog = true;
+               //    $scope.failedData = data; $scope.failedLog = true;
+                  $timeout(function () { $scope.failedData = data; $scope.failedLog = true; }, 0);
+
                 //  setTimeout(function(){ stopFailureBar(); }, 3000);
                   $timeout(function () { $scope.failedLog = false; }, 3000);
                });
@@ -633,17 +617,17 @@ angular.module('starter.controllers', [])
 
        socket.on('addLineStuff', function (data) {
          if(localStorage.getItem("StoreName") == data.store) {
-              console.log(data); $rootScope.successful = true;  $scope.countries.push(data)
+            //  console.log(data); $rootScope.successful = true;  $scope.countries.push(data)
+              $timeout(function () { $rootScope.successful = true;  $scope.countries.push(data); }, 0);
               $timeout(function () { $rootScope.successful = false; }, 3000);
               }
        });
-
 
        /*   --------TIMEOUT-----------     */
        function stopSuccessBar () { $scope.$apply(function () { $rootScope.successful = false; });  }
 
 
-       /*   --------DELETE MODE-----------     */
+       /*   --------DELETE LINE-----------     */
         $scope.deleteLine = function(name) {
           console.log("line is: "+name);   console.log("store name: "+ $scope.grabStorename);
              socket.emit('deleteselectedLine',  {line : name, store: localStorage.getItem("StoreName")},function (data) {
@@ -655,9 +639,13 @@ angular.module('starter.controllers', [])
             console.log(data);  console.log($scope.grabStorename);
             if (data === '') {
               console.log('the data was deleted!');
-              $scope.$apply(function () { $scope.countries = data;  });
+            //  $scope.$apply(function () { $scope.countries = data;  });
+              $timeout(function () { $scope.countries = data; }, 0);
+
             } else if (localStorage.getItem("StoreName") === data[0].store ) {
-              $scope.$apply(function () { $scope.countries = data;    });
+            //  $scope.$apply(function () { $scope.countries = data;    });
+              $timeout(function () { $scope.countries = data; }, 0);
+
             }
         });
 
@@ -670,11 +658,7 @@ angular.module('starter.controllers', [])
           localStorage.setItem("LineNumber", $scope.grabLineNumber);
            console.log(localStorage.getItem("LineNumber"));
 
-            socket.emit('checkLineAdmin',  {store : $scope.grabStorename, line: $scope.grabLineNumber,
-                Adminpassword: $scope.usertoken },function (data) {
-            console.log(data);
-           });
-      		};
+       		};
 
        })
 
