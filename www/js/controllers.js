@@ -670,32 +670,46 @@ angular.module('starter.controllers', [])
         console.log('THIS IS THE LINENUMBER: '+localStorage.getItem("LineNumber"));
          console.log('THIS IS THE STORENAME: '+localStorage.getItem("StoreName"));
 
-        $scope.myObj = { "color" : "white", "background-color" : "coral" };
 
+         /* ----------STATE CHANGE -------------- */
 
-        /* ----------CLOCK 1 --------------
+         $scope.$on('$stateChangeSuccess', function () {
+               socket.emit('getPeopleLine', {store : localStorage.getItem("StoreName"),
+               line: localStorage.getItem("LineNumber"), Adminpassword: $scope.usertoken },function (data) {
+                   $scope.$apply(function () {
+                     console.log(data);  $scope.people = data;
 
-        function clock() {
-          // We create a new Date object and assign it to a variable called "time".
-        var time = new Date(),
+                   //   data.put("value1", 1);
+                   //I FINALLY FIGURED OUT HOW TO ADD DATA TO EACH ROW OF AN OBJECT:
+                   // THEN USE: {{person.propertyTwo}}
+                     //  data[0]['propertyTwo'] = 'wait time: '+5+' min';
+                     //  data[1]['addstuff'] = 'sounds good';
+                     //  data[1]['email'] = 'jayjay';
+                     //  console.log(data);
+                 });
 
-            // Access the "getHours" method on the Date object with the dot accessor.
-            hours = time.getHours(),
-             // Access the "getMinutes" method with the dot accessor.
-            minutes = time.getMinutes(),
-             seconds = time.getSeconds();
+             /*vTO MAKE THE AUTO MESSAGE:
+               1) HAVE TO TAKE DATA IN ARRAY, THEN MANUALLY SORT THE DATA BASED ON WHICH BUTTON IS PRESSED....
+                   IE... IF POSITION BUTTON IS PRESS AND IF DISPLACEMENT BUTTON IS PRESSED....
+               2) press button, then it passes info*/
 
-        document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
-          function harold(standIn) {
-            if (standIn < 10) { standIn = '0' + standIn;  }
-            return standIn;
-          }
-        }
-        setInterval(clock, 1000);
-*/
-      //  var now = new Date();
-      //  console.log(now.addMinutes(50));
+                 //THIS GETS THE DATA BACK AND THEN SORTS IT TO CHECK FOR THE FIRST PERSON IN LINE POSITION,
+                 //THEN GETS IT FOR THE AUTONOTIFY
+               console.log(data);
+               data.sort(function (a, b) {
+                   return a.created.localeCompare(b.created);
+               });
+                 console.log(data); console.log(data[0]);
+                   $rootScope.emailNotify = data[0].email;
+                   $rootScope.notificationNotify = data[0].notificationkey;
 
+                  $scope.findGPS();
+                  //$timeout(function () { $scope.autoNotify();  }, 3000);
+
+              });
+         });
+
+        /* ----------NOTE: REFER TO README FILE FOR CLOCK 1 -------------- */
 
       /* ----------CLOCK 2 -------------- */
 
@@ -704,19 +718,15 @@ angular.module('starter.controllers', [])
         $interval(tick, 1000);
 
         //THIS IS AN EXAMPLE I MADE TO SHOW THAT I COULD ADD TO CLOCK VALUE
-        var blue = Date.now();
-        console.log(blue * 30);
+        var blue = Date.now();    console.log(blue * 30);
 
-
-        var d = new Date();
-        var v = new Date();
-        v.setMinutes(d.getMinutes()+30);
-        console.log(v);
+        var d = new Date();    var v = new Date();
+        v.setMinutes(d.getMinutes()+30);    console.log(v);
 
 
         $scope.message = {time :''};
 
-      //  $scope.message ={body:"Your turn is up!"};
+      /* ----------ADDS WAITTIME MESSAGE TO PAGE -------------- */
 
         $scope.addWait_time = function(name){
            if ( $scope.message.time ==='') {
@@ -734,57 +744,14 @@ angular.module('starter.controllers', [])
             }
         };
 
-      //  $interval(tick, 1000);
-
-    //  $scope.countDown = 500;
-    //  $interval(function(){console.log($scope.countDown--)},1000,0);
-
-
 
         /* ----------CLOCK 3 -------------- */
 
-        var add_minutes =  function (dt, minutes) {
-            return new Date(dt.getTime() + minutes*60000);
-      }
-      console.log(add_minutes(new Date(2014,10,2), 30).toString());
+        var add_minutes =  function (dt, minutes) {   return new Date(dt.getTime() + minutes*60000); }
+          console.log(add_minutes(new Date(2014,10,2), 30).toString());
 
 
-        /* ----------VALIDATION -------------- */
-
-         $scope.nodeValidation = function(){
-          $http.post('https://lineups-adminone.herokuapp.com/polling', {"email": "jlatouf2@gmail.com"})
-           .then(function(data) {
-               //First function handles success
-               console.log('worked');  console.log(data);
-               //$scope.content = response.data;
-           }, function(data) {
-           });
-         };
-
-         $scope.nodeValidation();
-
-         socket.emit('poll', {},function (data) { console.log('worked!');  console.log(data);   });
-
-
-          $scope.nodeValidation = function(){
-            $http.post('https://lineups-adminone.herokuapp.com/stuffwhite', {"email": "jlatouf2@gmail.com"})
-             .then(function(data) {
-                 //First function handles success
-                 console.log('worked');
-                  console.log(data); console.log(data.data); console.log(data.data[0]); console.log(data.data[1]);
-                  $scope.validationData = data.data;
-
-                 //$scope.content = response.data;
-             }, function(data) {
-                 //Second function handles error
-                 console.log('didnt work');
-                 console.log(data); console.log(data.data); console.log(data.data[0]);
-                 console.log(data.data[1]); $scope.validationData = data.data;
-             });
-
-           };
-
-           /* ----------MODALS -------------- */
+            /* ----------MODALS -------------- */
 
           $rootScope.goback2 = function(){ console.log('clicked3'); $ionicHistory.goBack(); };
 
@@ -843,49 +810,6 @@ angular.module('starter.controllers', [])
       $scope.myfunction22 = function () {  confirm('CLICKED FROM JAVASCRIPT!');  };
 
 
-      /* ----------GET PEOPLE FCN -------------- */
-
-      $scope.$on('$stateChangeSuccess', function () {
-            socket.emit('getPeopleLine', {store : localStorage.getItem("StoreName"),
-            line: localStorage.getItem("LineNumber"), Adminpassword: $scope.usertoken },function (data) {
-                $scope.$apply(function () {
-                  console.log(data);
-                   $scope.people = data;
-
-                //   data.put("value1", 1);
-
-                //I FINALLY FIGURED OUT HOW TO ADD DATA TO EACH ROW OF AN OBJECT:
-                // THEN USE: {{person.propertyTwo}}
-
-
-                  //  data[0]['propertyTwo'] = 'wait time: '+5+' min';
-                  //  data[1]['addstuff'] = 'sounds good';
-
-                  //  data[1]['email'] = 'jayjay';
-
-                  //  console.log(data);
-
-
-                 });
-          /*vTO MAKE THE AUTO MESSAGE:
-            1) HAVE TO TAKE DATA IN ARRAY, THEN MANUALLY SORT THE DATA BASED ON WHICH BUTTON IS PRESSED....
-                IE... IF POSITION BUTTON IS PRESS AND IF DISPLACEMENT BUTTON IS PRESSED....
-            2) press button, then it passes info*/
-
-            console.log(data);
-            data.sort(function (a, b) {
-                return a.created.localeCompare(b.created);
-            });
-              console.log(data); console.log(data[0]);
-                $rootScope.emailNotify = data[0].email;
-                $rootScope.notificationNotify = data[0].notificationkey;
-
-               $scope.findGPS();
-               //$timeout(function () { $scope.autoNotify();  }, 3000);
-
-           });
-      });
-
       /* ----------AUTO NOTIFY LOOP -------------- */
 
         $scope.autoNotify = function() {
@@ -929,35 +853,16 @@ angular.module('starter.controllers', [])
               if (data === '') {
                 console.log('the data was deleted!');   $scope.$apply(function () { $scope.people = data; });
               } else if ($scope.grabStorename === data[0].store && $scope.grabLineNumber === data[0].line) {
-                $scope.$apply(function () { $scope.people = data;
-                  /******   NOTE: //THIS RETURNS THE PEOPLE AFTER DELETE AND STARTS THE LOOPS AGAIN!  ******/
+            /*    $scope.$apply(function () { $scope.people = data;
+                    NOTE: //THIS RETURNS THE PEOPLE AFTER DELETE AND STARTS THE LOOPS AGAIN!
                   $scope.autoNotify();
                 });
+*/
+                $timeout(function () { $scope.people = data;   $scope.autoNotify(); }, 0);
               }
           });
-
-
-        /*   THE ONLY THINGS THAT I HAVE TO ADD:
-          1) COPY THE DELETE SOCKET FUNCTION, REPLACE IT WITH ANOTHER IDENTICAL ONE [IN BACKEND AS WELL],
-              AND DO THE SAME WITH THE SOCKET.ON FUNCTION
-          2) THEN ADD THE $scope.autoNotify() at end which will keep the loop going.
-
-          socket.on('deletePeople55', function (data) {
-              console.log(data);  console.log($scope.grabStorename);
-              if (data == '') {
-                console.log('the data was deleted!');   $scope.$apply(function () { $scope.people = data; });
-              } else if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
-                $scope.$apply(function () { $scope.people = data; $SCOPE.AUTONOTIFY(); });
-              }
-          });
-           */
-
-
-
 
         $scope.findDistance22 = function(index, email, store, line, created, notificationkey){
-            console.log(email); console.log(store); console.log(line);
-            console.log(created); console.log(notificationkey);
 
             $rootScope.detailEmail = email;  $rootScope.detailStore = store;
             $rootScope.detailLine = line;  $rootScope.detailCreated = created;
@@ -996,38 +901,6 @@ angular.module('starter.controllers', [])
         };
 
         //$timeout(function () { $scope.findDistance22();  }, 3000);
-
-
-
-        var array = [
-            { id: 1, start: "2016-12-07T13:00:00", subject: "test1" }, { id: 2, start: "2016-12-07T09:00:00", subject: "test2" },
-            { id: 3, start: "2016-12-07T10:00:00", subject: "test3" }, { id: 4, start: "2016-12-07T07:00:00", subject: "test4" },
-            { id: 5, start: "2016-12-07T14:00:00", subject: "test5" }  ];
-
-        array.sort(function (a, b) { return a.start.localeCompare(b.start);  });
-        console.log(array);
-
-                //THIS IS THE ONE THAT WORKS!
-
-        var array2 = [
-          { _id: '5a3a97c33f3d3b707c13831f', line: '2', store: 'Bedboye3',  __v: 0, created: "2017-12-20T17:02:59.694Z" },
-          { _id: '5a3afbe53444f0753d51c16f', email: 'jlatouf2@gmail.com77', line: '2', store: 'Bedboye3', __v: 0, created: '2017-12-21T00:10:13.245Z' },
-          { _id: '5a3b01743444f0753d51c170', email: 'jlatouf2@gmail.com22', line: '2', store: 'Bedboye3',
-          distance: '0.0015307120357972858',   __v: 0, created: '2017-12-21T00:33:56.482Z' } ];
-
-          array2.sort(function (a, b) { return a.created.localeCompare(b.created);  });
-          console.log(array2);
-
-
-        var cars = [
-        {type:"Volvo", year:2016},
-        {type:"Saab", year:2001},
-        {type:"BMW", year:2010}];
-
-        cars.sort(function(a, b){return a.year - b.year});
-
-        console.log(cars);
-
 
 
           /*      1)----------GETS COORDINATES OF LINE -------------- */
@@ -1086,16 +959,15 @@ angular.module('starter.controllers', [])
               }, 1000);
              };
 
-
              // 2)   STARTS DISTANCE CALC:
              $scope.findGPS();
 
         $scope.getStoreCords = function() {
           socket.emit('getLineCoordinates', {store : $scope.grabStorename},function (data) {
-            $scope.$apply(function () { console.log(data);    $scope.places = data;  });
+            $timeout(function () { console.log(data);    $scope.places = data;  }, 0);
+          //  $scope.$apply(function () { console.log(data);    $scope.places = data;  });
          });
        };
-
 
        $scope.addnameLine ={line:""};
        $scope.addnameLine ={person:'jlatouf33@gmail.com'};
@@ -1107,8 +979,8 @@ angular.module('starter.controllers', [])
               email: $scope.addnameLine.person, fullname: $scope.fullName,  longitude: $scope.longitude,
               latitude: $scope.latitude, distance: $scope.finalCalc, number: $scope.addnameLine.line,
               Adminpassword: $scope.usertoken },function (data) {
-
-          $scope.$apply(function () {  console.log(data);   console.log(data.email);   $scope.people.push(data);  });
+        //  $scope.$apply(function () {  console.log(data);   console.log(data.email);   $scope.people.push(data);  });
+          $timeout(function () { console.log(data);   console.log(data.email);   $scope.people.push(data);  }, 0);
           });
            $scope.closepeoplemodal1();
       };
@@ -1260,40 +1132,47 @@ angular.module('starter.controllers', [])
             /* ----------DELETE PEOPLE FUNCITON -------------- */
             $scope.deletePeople2 = function(email) { console.log("Email: " + email);
                 socket.emit('deletePeopleLine55', {email : email, store : $scope.grabStorename, line: $scope.grabLineNumber },function (data) {
-                 $scope.$apply(function () { console.log(data);   $scope.people = data; });
+              //   $scope.$apply(function () { console.log(data);   $scope.people = data; });
+                 $timeout(function () { console.log(data);   $scope.people = data; }, 0);
+
               });
             };
 
 
-            socket.on('deletePeople55', function (data) {
-                console.log(data);  console.log($scope.grabStorename);
-                if (data == '') {
-                  console.log('the data was deleted!');   $scope.$apply(function () { $scope.people = data; });
-                } else if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
-                  $scope.$apply(function () { $scope.people = data;  });
-                }
-            });
+          socket.on('deletePeople55', function (data) {
+              console.log(data);  console.log($scope.grabStorename);
+              if (data == '') {
+                console.log('the data was deleted!');   $scope.$apply(function () { $scope.people = data; });
+              } else if ($scope.grabStorename == data[0].store && $scope.grabLineNumber == data[0].line) {
+                //$scope.$apply(function () { $scope.people = data;  });
+                $timeout(function () {  $scope.people = data;  }, 0);
+
+              }
+          });
 
           //Grabs Storename to pass to next page
           $scope.checkPeopleFcn = function(names){
                  socket.emit('checkPeopleAdmin', {store : $scope.grabStorename,
                line: $scope.grabLineNumber, Adminpassword: $scope.usertoken },function (data) {
-                 $scope.$apply(function () { console.log(data);  $scope.countries = data;  });
+                 $timeout(function () {  console.log(data);  $scope.countries = data;  }, 0);
+
+            //     $scope.$apply(function () { console.log(data);  $scope.countries = data;  });
+
                 });
           };
 
     })
 
-.controller('MessagingCtrl', function($scope, $location, $http, $rootScope ) {
+.controller('MessagingCtrl', function($scope, $location, $timeout, $http, $rootScope ) {
 
 //https://thawing-ocean-11742.herokuapp.com/findUserTokens
       $scope.$on('$stateChangeSuccess', function () {
            socket.emit('findUserTokens', {},function (data) {
-            $scope.$apply(function () {
-              console.log('worked');  console.log(data);
-              $scope.usercontents = data;
-             });
-         });
+              $timeout(function () {
+               console.log('worked');  console.log(data);
+               $scope.usercontents = data;
+              }, 0);
+          });
        });
 
         $scope.message ={body:"Your turn is up!"};
@@ -1377,40 +1256,41 @@ angular.module('starter.controllers', [])
 
      })
 
-.controller('AnalyticsCtrl', function($scope, $location, $http, $rootScope ) {
+.controller('AnalyticsCtrl', function($scope, $location, $timeout, $http, $rootScope ) {
 
 
             socket.emit('findUserTokensPeopleLine', {},function (data) {
-             $scope.$apply(function () {
-               console.log('worked'); console.log(data);
-               $scope.usercontents = data;  $rootScope.numberLinesAnalytics = true;
-
-              });
-          });
+              $timeout(function () {
+                console.log('worked'); console.log(data);
+                $scope.usercontents = data;  $rootScope.numberLinesAnalytics = true;
+              }, 0);
+           });
 
             /* ----------POSITION BUTTON! -------------- */
             $scope.positionButton = function(){
                  socket.emit('findUserTokensPeopleLine', {},function (data) {
-                  $scope.$apply(function () {
-                    console.log('worked'); console.log(data);
-                    $scope.usercontents = data;  $rootScope.numberLinesAnalytics = true;
-                   });
-               });
+
+                   $timeout(function () {
+                     console.log('worked'); console.log(data);
+                     $scope.usercontents = data;  $rootScope.numberLinesAnalytics = true;
+                   }, 0);
+
+                });
              };
 
             /* ----------DISPLACEMENT BUTTON! -------------- */
             $scope.displacementButton = function(){
                   socket.emit('findUserTokens', {},function (data) {
-                  $scope.$apply(function () {
-                    console.log('worked'); console.log(data);
-                    $scope.usercontents = data;  $rootScope.numberLinesAnalytics = false;
-                   });
-               });
+                    $timeout(function () {
+                      console.log('worked'); console.log(data);
+                      $scope.usercontents = data;  $rootScope.numberLinesAnalytics = false;
+                    }, 0);
+                });
             };
 
       })
 
- .controller('LoginCtrl', function($scope, $location, $http, $rootScope, $timeout, AuthService ) {
+ .controller('LoginCtrl', function($scope, $location,  $http, $rootScope, $timeout, AuthService ) {
 
   /* document.addEventListener("deviceready", function() {
      window.FirebasePlugin.grantPermission();

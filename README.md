@@ -191,3 +191,59 @@ to change App Name:
 //  $location.path('/home');
 //  window.location.href = "#/home";
 //  window.location.replace("#/home");
+
+
+/* ----------CLOCK 1 --------------
+
+function clock() {
+  // We create a new Date object and assign it to a variable called "time".
+var time = new Date(),
+
+    // Access the "getHours" method on the Date object with the dot accessor.
+    hours = time.getHours(),
+     // Access the "getMinutes" method with the dot accessor.
+    minutes = time.getMinutes(),
+     seconds = time.getSeconds();
+
+document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+  function harold(standIn) {
+    if (standIn < 10) { standIn = '0' + standIn;  }
+    return standIn;
+  }
+}
+setInterval(clock, 1000);
+*/
+//  var now = new Date();
+//  console.log(now.addMinutes(50));
+
+
+      DATA SORT
+
+        var array = [
+            { id: 1, start: "2016-12-07T13:00:00", subject: "test1" }, { id: 2, start: "2016-12-07T09:00:00", subject: "test2" },
+            { id: 3, start: "2016-12-07T10:00:00", subject: "test3" }, { id: 4, start: "2016-12-07T07:00:00", subject: "test4" },
+            { id: 5, start: "2016-12-07T14:00:00", subject: "test5" }  ];
+
+        array.sort(function (a, b) { return a.start.localeCompare(b.start);  });
+        console.log(array);
+
+                //THIS IS THE ONE THAT WORKS!
+
+        var array2 = [
+          { _id: '5a3a97c33f3d3b707c13831f', line: '2', store: 'Bedboye3',  __v: 0, created: "2017-12-20T17:02:59.694Z" },
+          { _id: '5a3afbe53444f0753d51c16f', email: 'jlatouf2@gmail.com77', line: '2', store: 'Bedboye3', __v: 0, created: '2017-12-21T00:10:13.245Z' },
+          { _id: '5a3b01743444f0753d51c170', email: 'jlatouf2@gmail.com22', line: '2', store: 'Bedboye3',
+          distance: '0.0015307120357972858',   __v: 0, created: '2017-12-21T00:33:56.482Z' } ];
+
+          array2.sort(function (a, b) { return a.created.localeCompare(b.created);  });
+          console.log(array2);
+
+
+        var cars = [
+        {type:"Volvo", year:2016},
+        {type:"Saab", year:2001},
+        {type:"BMW", year:2010}];
+
+        cars.sort(function(a, b){return a.year - b.year});
+
+        console.log(cars);

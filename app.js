@@ -361,12 +361,6 @@ socket.on('addStore', function (data, callback) {
     });
 
 
-socket.on('poll', function (data, callback) {
-  console.log(data);
-      callback(data);
-});
-
-
 socket.on('getPeopleLine', function (data, callback) {
   PeopleLine.find({ $and: [{store: data.store}, {line: data.line}]})
     .exec(function(err, posts) {
@@ -1800,30 +1794,6 @@ var n = d
 
 
 
-      app.post('/stuffwhite3', function (req, res) {
-          console.log('worked');
-          res.send('posts');
-      });
-
-            //validation:
-
-        app.post('/stuffwhite', function (req, res) {
-
-
-        req.assert('name', 'Name is required').notEmpty().trim().withMessage('must be an name');
-         //Validate name
-        req.assert('email', 'A valid email is required').trim().isEmail();
-        req.assert('password', 'Password must be at least 4 characters long').len(4);
-        var errors = req.validationErrors();
-        //if (errors) return res.send(errors);
-        if (errors) return res.status(400).send(errors);
-
-        console.log('black');
-        console.log(req.body.email);
-
-        });
-
-        console.log(/'\d+'/.test("'123'"));
 
 
 /*
