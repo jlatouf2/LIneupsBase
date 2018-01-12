@@ -44,12 +44,11 @@
     "cordova-browser": "~5.0.3",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-badge": "^0.8.5",
-    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-dialogs": "^1.3.4",
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-firebase": "0.1.20",
-    "cordova-plugin-geolocation": "^2.4.3",
+    "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-inappbrowser": "^1.7.2",
     "cordova-plugin-local-notification": "git+https://github.com/katzer/cordova-plugin-local-notifications.git",
     "cordova-plugin-splashscreen": "^4.1.0",
@@ -84,9 +83,6 @@
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-geolocation": {
-        "GEOLOCATION_USAGE_DESCRIPTION": " "
-      },
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
@@ -100,7 +96,10 @@
       "cordova-plugin-dialogs": {},
       "cordova-plugin-local-notification": {},
       "cordova-plugin-firebase": {},
-      "ionic-plugin-keyboard": {}
+      "ionic-plugin-keyboard": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "This app uses uses your location to calculate your displacement in a particular lineup of people."
+      }
     },
     "platforms": [
       "ios",
