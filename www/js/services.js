@@ -61,7 +61,7 @@ angular.module('starter').factory('AuthService' ,
             facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
 
             function (userData) {
-              // window.alert(userData.id);
+               window.alert(userData.id);
             //   window.alert(userData.name);
             //   window.alert(userData.email);
             //   window.alert($rootScope.noteToken);
@@ -72,7 +72,7 @@ angular.module('starter').factory('AuthService' ,
 
         //STEP 3)  POSTS DATA TO BACKEND TO CHECK IF IN DATABASE:
         //'https://lineups-adminone.herokuapp.com/facebookSignupLogin'
-         $http.post('http://192.168.1.115:3000/facebookSignupLogin',
+         $http.post('https://lineups-adminone.herokuapp.com/facebookSignupLogin',
          {userID: $rootScope.userID, name: $rootScope.name, email: $rootScope.email, noteToken: $rootScope.noteToken})
              .success(function(data) {
                 // window.alert(data);

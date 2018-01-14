@@ -307,7 +307,7 @@ angular.module('starter.controllers', [])
            $timeout(function () {
              //https://graph.facebook.com/{facebookId}/picture?type=square
              //https://graph.facebook.com/{facebookId}/picture?type=large&w‌​idth=720&height=720
-             var bob2 = "http://graph.facebook.com/" +$rootScope.userID+ "/picture?type=large&w‌​idth=150&height=200";
+             var bob2 = "http://graph.facebook.com/" +$rootScope.userID+ "/picture?type=square";
 
              console.log("This is the data that I am goign to pass: "+ bob2);
              console.log($scope.userid); $scope.black2 = bob2; console.log($scope.black2);
