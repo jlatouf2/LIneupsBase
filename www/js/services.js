@@ -45,6 +45,7 @@ angular.module('starter').factory('AuthService' ,
 
 
     function facebookLogin(noteToken){
+
       $rootScope.noteToken = noteToken;
 
          document.addEventListener("deviceready", function() {
@@ -60,29 +61,37 @@ angular.module('starter').factory('AuthService' ,
             facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
 
             function (userData) {
-               window.alert(userData.id);
-               window.alert(userData.name);
-               window.alert(userData.email);
+              // window.alert(userData.id);
+            //   window.alert(userData.name);
+            //   window.alert(userData.email);
+            //   window.alert($rootScope.noteToken);
+
                $rootScope.userID = userData.id;
                $rootScope.name = userData.name;
                $rootScope.email = userData.email;
 
         //STEP 3)  POSTS DATA TO BACKEND TO CHECK IF IN DATABASE:
-         $http.post('https://lineups-adminone.herokuapp.com/facebookSignupLogin',
+        //'https://lineups-adminone.herokuapp.com/facebookSignupLogin'
+         $http.post('http://192.168.1.115:3000/facebookSignupLogin',
          {userID: $rootScope.userID, name: $rootScope.name, email: $rootScope.email, noteToken: $rootScope.noteToken})
              .success(function(data) {
-                 window.alert(data);
-                 window.alert(data.email);
-                 window.alert(data.firstname);
-                 window.alert(data._id);
+                // window.alert(data);
+                // window.alert(data.email);
+              //   window.alert(data.firstname);
+                // window.alert(data._id);
+              //   window.alert(data.notificationkey);
 
                   //PLEASE NOTE: TO GET THE FACEBOOK PICTURE THIS WAY I NEEDS
                   //TO GET THE USERID, BUT I DONT HAVE USERID SAVED IN THIS DATABASE
+                  $rootScope.imageSaved = true;
 
-                     $location.path('/profile');
                      $rootScope.userdata = data;
                  $rootScope.useremail = data.email;   $rootScope.fullName = data.firstname;
                  $rootScope.userid = data._id;
+                 $rootScope.usertoken = data.notificationkey;
+
+                 $location.path('/profile');
+
                   //$rootScope.usertoken = data.user.notificationkey;
 
                 }).error(function (data) { console.log(data); });
@@ -137,9 +146,8 @@ angular.module('starter').factory('AuthService' ,
             $rootScope.userid = null;     $rootScope.usertoken = null;
             $rootScope.useremail = null;  $rootScope.fullName = null;
             $rootScope.userid = null;     $rootScope.userPassword = null;
-
             $rootScope.imageSaved = false;
-            $http.get('/logout')
+             $http.get('/logout')
               .success(function () {    console.log('LOGGED OUT!');    })
               .error(function () {      console.log('NOT LOGGED OUT!');   });
               $location.path('/app/home');

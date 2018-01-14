@@ -258,13 +258,13 @@ angular.module('starter.controllers', [])
         document.addEventListener("deviceready", function() {
                 window.FirebasePlugin.getToken(function(token) {
                 // save this server-side and use it to push notifications to this device
-                 window.alert(token);
+            //     window.alert(token);
                localStorage.setItem("TokenData", token);
                var myToken = localStorage.getItem("TokenData");
                $rootScope.noteToken = myToken;
-               window.alert(myToken);
+            //   window.alert(myToken);
 
-                window.alert(token);
+              //  window.alert(token);
             }, function(error) {
                 window.alert(error);
             });
@@ -286,7 +286,7 @@ angular.module('starter.controllers', [])
       })
 
 
-.controller('ProfileCtrl', function($scope, $location, $http, $rootScope, AuthService) {
+.controller('ProfileCtrl', function($scope, $location, $timeout, $http, $rootScope, AuthService) {
 
 
         //THIS CONFIRMS THE LOGIN FOR FACEBOOK
@@ -299,10 +299,29 @@ angular.module('starter.controllers', [])
           $scope.black2 = bob2;
         }, 1000);
         */
+        $scope.$on('$stateChangeSuccess', function () {
+
+          if ($rootScope.imageSaved === true) {
+           //$rootScope.imageSaved = true;
+
+           $timeout(function () {
+             //https://graph.facebook.com/{facebookId}/picture?type=square
+             //https://graph.facebook.com/{facebookId}/picture?type=large&w‌​idth=720&height=720
+             var bob2 = "http://graph.facebook.com/" +$rootScope.userID+ "/picture?type=large&w‌​idth=150&height=200";
+
+             console.log("This is the data that I am goign to pass: "+ bob2);
+             console.log($scope.userid); $scope.black2 = bob2; console.log($scope.black2);
+
+           }, 1000);
+
+         }
+
+
+         });
 
 
           AuthService.confirm(); console.log($scope.userid);
-          console.log($rootScope.useremail); console.log($scope.imageSaved);
+          console.log($rootScope.useremail);
 
         /*
         You can use following urls to obtain different sizes of profile images. Please make sure to add Facebook id to url.
@@ -326,11 +345,29 @@ angular.module('starter.controllers', [])
         $scope.black2 = bob2;
         console.log($scope.black2);
         */
+             if ($rootScope.imageSaved === true) {
+              //$rootScope.imageSaved = true;
 
-        //https://graph.facebook.com/{facebookId}/picture?type=large&w‌​idth=720&height=720
-        var bob2 = "http://graph.facebook.com/" +$scope.userid+ "/picture?type=square";
-        console.log("This is the data that I am goign to pass: "+ bob2);
-        console.log($scope.userid); $scope.black2 = bob2; console.log($scope.black2);
+              $timeout(function () {
+                //https://graph.facebook.com/{facebookId}/picture?type=large&w‌​idth=720&height=720
+                var bob2 = "http://graph.facebook.com/" +$rootScope.userID+ "/picture?type=square";
+
+                console.log("This is the data that I am goign to pass: "+ bob2);
+                console.log($scope.userid); $scope.black2 = bob2; console.log($scope.black2);
+                $rootScope.imageSaved2 = true;
+
+              }, 3000);
+
+            }
+
+            $timeout(function () {
+              //https://graph.facebook.com/{facebookId}/picture?type=large&w‌​idth=720&height=720
+              var bob2 = "http://graph.facebook.com/" +$rootScope.userID+ "/picture?type=square";
+              console.log("This is the data that I am goign to pass: "+ bob2);
+              console.log($scope.userid); $scope.black2 = bob2; console.log($scope.black2);
+
+            }, 3000);
+
 
         })
 
@@ -1346,13 +1383,13 @@ angular.module('starter.controllers', [])
               document.addEventListener("deviceready", function() {
                       window.FirebasePlugin.getToken(function(token) {
                       // save this server-side and use it to push notifications to this device
-                       window.alert(token);
+                    //   window.alert(token);
                      localStorage.setItem("TokenData", token);
                      var myToken = localStorage.getItem("TokenData");
                      $rootScope.noteToken = myToken;
-                     window.alert(myToken);
+                    // window.alert(myToken);
 
-                      window.alert(token);
+                    //  window.alert(token);
                   }, function(error) {
                       window.alert(error);
                   });
@@ -1511,6 +1548,8 @@ angular.module('starter.controllers', [])
 
            /*   --------GRAPH DATA:-----------     */
 
+$scope.bluetwo = 'black';
+
            $scope.line = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             series: ['Series A', 'Series B'],
@@ -1569,6 +1608,15 @@ angular.module('starter.controllers', [])
                 'Pie' : 'PolarArea';
           }
            };
+
+
+           $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+           $scope.series = ['Series A', 'Series B'];
+           $scope.data = [
+               [65, 59, 80, 81, 56, 55, 40],
+               [28, 48, 40, 19, 86, 27, 90]
+           ];
+
 
 
 

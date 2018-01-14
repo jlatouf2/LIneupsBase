@@ -1285,6 +1285,8 @@ app.post('/facebookSignupLogin', function(req, res) {
   console.log(typeof(req.body.email)); console.log(typeof(req.body.userID));
   console.log(typeof(req.body.name));
 
+  var noteTokenvar = req.body.noteToken;
+
   Blue.findOne({ email: req.body.email }, function(err, user) {
     if (err) {throw err;}
     console.log(user);
@@ -1308,6 +1310,10 @@ app.post('/facebookSignupLogin', function(req, res) {
 
     } else {
        console.log('user is already in database');
+
+       user.notificationkey = noteTokenvar;
+        user.save();
+
       console.log(user); console.log(user.email); console.log(user.firstname);
       res.send(user);
     }
