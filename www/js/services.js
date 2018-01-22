@@ -22,7 +22,7 @@ angular.module('starter').factory('AuthService' ,
 //http://192.168.1.115:3000/signup22
 //https://thawing-ocean-11742.herokuapp.com/signup22
 //https://lineups-adminone.herokuapp.com/signup22
-            $http.post('https://lineups-adminone.herokuapp.com/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf, noteToken: noteToken } )
+            $http.post('http://192.168.1.115:3000/signup22', { fname: fname, lname: lname, email : email, password : password, passwordConf: passwordConf, noteToken: noteToken } )
             .success(function( data) {
               console.log (data);
               $location.path('/profile');
@@ -61,7 +61,7 @@ angular.module('starter').factory('AuthService' ,
             facebookConnectPlugin.api('me/?fields=id,name,email', ['email','public_profile'],
 
             function (userData) {
-               window.alert(userData.id);
+            //   window.alert(userData.id);
             //   window.alert(userData.name);
             //   window.alert(userData.email);
             //   window.alert($rootScope.noteToken);

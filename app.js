@@ -802,7 +802,7 @@ app.post('/signup22', function (req, res, next) {
         var userData = {
           email: req.body.email, firstname: req.body.fname,
           lastname: req.body.lname, password: req.body.password,
-          passwordConf: req.body.passwordConf, notificationkey: req.body.noteToken
+           notificationkey: req.body.noteToken
         };
           console.log(req.body.email);
                emailCheck(req.body.email)

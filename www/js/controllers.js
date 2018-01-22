@@ -711,6 +711,11 @@ angular.module('starter.controllers', [])
          console.log('THIS IS THE STORENAME: '+localStorage.getItem("StoreName"));
 
 
+         $scope.TestAngularMethod = function () {
+             alert('Hello you are calling angular js method.');
+         }
+
+
          /* ----------STATE CHANGE -------------- */
 
          $scope.$on('$stateChangeSuccess', function () {

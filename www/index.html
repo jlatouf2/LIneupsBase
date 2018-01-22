@@ -104,7 +104,7 @@
              <li><a ng-hide="userdata" href="#/messaging" style="color:black"><span class="glyphicon glyphicon-log-in" ></span> Messaging</a></li>
              <li><a ng-hide="userdata" href="#/analytics" style="color:black"><span class="glyphicon glyphicon-user"></span> Analytics</a></li>
              <li><a ng-show="userdata" href="#/profile" style="color:black"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-             <li><a ng-show="userdata" ng-controller="firstController" ng-click="logoutFunction()" style="color:black"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+             <li><a ng-show="userdata" ng-controller="firstController" ng-click="logoutFunction()" style="color:black; cursor: pointer"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
           </ul>
        </div>
      </div>
@@ -162,13 +162,23 @@ $('.navbar-toggle').click() //bootstrap 3.x by Richard
 
     function goBack() {   window.history.back();   }
 
+    //angular.element(document.getElementById('YourElementId')).injector().myfunction22();
+
+
+
+setTimeout(function(){
+  angular.element('YourElementId').controller('PeoplelineCtrl').myfunction22();
+
+
+ }, 3000);
+
      //SOCKET.IO FUNCTIONS:
   //  var socket = io();fff
   //  var socket = io.connect('https://thawing-ocean-11742.herokuapp.com/#/:3000');
     //http://192.168.1.115: THIS WORKS FOR MOBILE LOGIN.
     //https://lineups-adminone.herokuapp.com/#/:3000
- var socket = io.connect('https://lineups-adminone.herokuapp.com/#/:3000');
-  //  var socket = io.connect('http://192.168.1.115:3000');
+// var socket = io.connect('https://lineups-adminone.herokuapp.com/#/:3000');
+    var socket = io.connect('http://192.168.1.115:3000');
 
 //https://thawing-ocean-11742.herokuapp.com/#/home
 
