@@ -2,18 +2,17 @@
   <ion-content   >
 
 
-<div>
-  <div style="color:white; text-align: center; background: #005596 url(img/uwinBannerBG.png) repeat 0 0;
-   vertical-align: middle; line-height: 50px;   font-size: 15px; " >
-    <span > </span>
-    <span  style="">&nbsp;  </span>
+  <div>
+    <div style="color:white; text-align: center; background: #005596 url(img/uwinBannerBG.png) repeat 0 0;
+     vertical-align: middle; line-height: 50px;   font-size: 15px; " >
+      <span > </span>
+      <span  style="">&nbsp;  </span>
    </div>
 
   <br>
 
 
-
-  <!--   <h1 class="" style="text-align: center; font-size: 60px; margin:0 " > University of Windsor   </h1> -->
+   <!--   <h1 class="" style="text-align: center; font-size: 60px; margin:0 " > University of Windsor   </h1> -->
 
      <img   style=" margin-left: auto; margin-right: auto; display: block;
       font-size:50px; height: 100px; width: 250px;" src="img/uwindLogo33.png" >
@@ -44,12 +43,12 @@
 
      <div class="bob3" style="width:300px; margin: 0 auto; margin-top:15px;">
          <br> <br>
-         <a href="#/signup" type="button" style="width:300px;   " class="btn btn-primary">
+         <a  ng-hide="userdata" href="#/signup" type="button" style="width:300px;   " class="btn btn-primary">
            <span  style="font-size: 25px; color:gold;"> Sign Up </span>
          </a>
 
          </br> </br>
-         <a  type="button" href="#/login" style="width:300px; margin: 0 auto; " class="bob3 btn btn-primary">
+         <a  ng-hide="userdata" type="button" href="#/login" style="width:300px; margin: 0 auto; " class="bob3 btn btn-primary">
            <spans  style="font-size: 25px; color:gold;"> Log In </span>
          </a>
      </div>

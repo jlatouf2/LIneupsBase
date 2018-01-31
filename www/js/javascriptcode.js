@@ -113,9 +113,13 @@ function myFunction() {   alert('funciton called');    }
 
           function(msg){  alert( "Success callback " +msg);},
           function(err){   alert( "Error callback " +err ); });
-           window.alert("DEVICE RESUMED");
+        //   window.alert("DEVICE RESUMED");
            //  var socket = io.connect('http://192.168.1.115:3000');
            window.location.href = "#/home";
+          var socket = io.connect('http://192.168.1.115:3000');
+          // var socket = io.connect('https://lineups-adminone.herokuapp.com/#/:3000');
+
+          socket.emit('clientEvent', { description: 'A custom event named testerEvent!'});
 
     }, false);
 
