@@ -1,6 +1,21 @@
 /* Empty. Add your own CSS if you like */
 
 
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+    .navbar-collapse.collapse.in {
+        display: block !important;
+    }
+    .navbar-header .collapse, .navbar-toggle {
+        display:block !important;
+    }
+    .navbar-header {
+        float:none;
+    }
+}
+
 
 @font-face {
     font-family: 'YourFontName'; /*a name to be used later*/
